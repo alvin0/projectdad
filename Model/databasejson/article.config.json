@@ -1,0 +1,1 @@
+{"last_id":0,"schema":{"id":"integer","category_article_id":"integer","title":"string","alias-title":"string","image_index":"string","image_gallery":"string","snippet":"string","content":"string","view":"integer","created_at":"string","updated_at":"string"},"relations":{}}

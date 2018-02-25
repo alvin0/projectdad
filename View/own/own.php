@@ -66,12 +66,12 @@
       <section class="resume-section p-3 p-lg-5 d-flex d-column" id="about">
         <div class="my-auto">
           <h1 class="mb-0">CHAU LAM DINH AI
-            <span class="text-primary">Alvin</span>
+            <span class="text-primary">(Alvin)</span>
           </h1>
-          <div class="subheading mb-1">
+          <div class="subheading mb-1">From Viet Nam
             <a href="mailto:name@email.com">chaulamdinhai@gmail.com</a>
           </div>
-          <p class="mb-5">This project for my dad. It is built from php and saves the database as json.</p>
+          <p class="mb-5">This project for my dad. It is built from php and save the database as json.</p>
           <ul class="list-inline list-social-icons mb-0">
             <li class="list-inline-item">
               <a href="#">
