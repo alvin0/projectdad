@@ -9,5 +9,4 @@ $route = [
             'articlenew'        => ['use' => 'Admin\ArticleController@getcreate'],
             'postcreatearticle' => ['use' => 'Admin\ArticleController@postcreate'],
         ]],
-    // 'default' => ['function' => 'wellcome'],
 ];

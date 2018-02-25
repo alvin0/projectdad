@@ -24,9 +24,9 @@ namespace Core;
  * @param string $file the template file to load
  * @return object
  */
-function template($file)
+function template($file, $param = null)
 {
-    return new Template($file);
+    return new Template($file, $compact);
 }
 
 /**
@@ -36,16 +36,29 @@ class View
 {
     static $path = View;
 
-    public $__file, $__blocks, $__append;
+    public $__file, $__blocks, $__append, $compact;
 
     /**
      * Returns a new template object
      *
      * @param string $file the template file to load
      */
-    public function __construct($file)
+    public function __construct($file, $param = null)
     {
-        $this->__file = $file;
+        $this->__file  = $file;
+        $this->compact = $param;
+    }
+
+    /**
+     * Allows setting template values while still returning the object instance
+     * $template->title($title)->text($text);
+     *
+     * @return this
+     */
+
+    public function compact($file)
+    {
+        return $this->compact[$file];
     }
 
     /**

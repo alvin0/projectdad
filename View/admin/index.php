@@ -1,12 +1,13 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Hello, world!</title>
+    <title> <?php print isset($title) ? $title : 'Admin';?> | Admin Alvin</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="View/admin/styleadmin/css/bootstrap.min.css">
+    <link rel="stylesheet" href="View/admin/styleadmin/css/mycss.css">
     <link rel="stylesheet" href="View/admin/styleadmin/css/fontawesome.min.css">
     <link rel="stylesheet" href="View/admin/styleadmin/css/bsadmin.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
@@ -44,6 +45,7 @@
 <script src="View/admin/styleadmin/js/myscript.js"></script>
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+        <?php print $this->block('script');?>
 
 </body>
 </html>

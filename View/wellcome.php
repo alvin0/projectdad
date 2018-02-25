@@ -10,9 +10,10 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 <body>
+	<?php echo $active; ?>
 	<div class="jumbotron text-center">
 	  <h1>My First Bootstrap Page</h1>
-	  <p>Resize this responsive page to see the effect!</p> 
+	  <p>Resize this responsive page to see the effect!</p>
 	</div>
 
 	<div class="container">
@@ -28,7 +29,7 @@
 	      <p>Ut enim ad..</p>
 	    </div>
 	    <div class="col-sm-4">
-	      <h3>Column 3</h3> 
+	      <h3>Column 3</h3>
 	      <p>Lorem ipsum dolor..</p>
 	      <p>Ut enim ad..</p>
 	    </div>

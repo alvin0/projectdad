@@ -3,8 +3,8 @@ namespace Controller;
 
 class Controller
 {
-    public function Test1()
+    public function filemanager()
     {
-        echo "12";
+        include View . 'filemanager.php';
     }
 }
