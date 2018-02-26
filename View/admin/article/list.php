@@ -34,7 +34,7 @@
             <td><?php echo $item->show_boolen == 0 ? "hide" : 'show'; ?></td>
             <td><?php echo $item->created_at; ?></td>
             <td><?php echo $item->view; ?></td>
-            <td>Update | Delete</td>
+            <td><a href="?group=admin&active=articleupdate&id=<?php echo $item->id ?>">Update</a> | Delete</td>
         </tr>
         <?php }?>
     </tbody>

@@ -1,5 +1,6 @@
 <?php $this->start();?>
-<h1 class="display-5 mb-4">Create Article ( bài viết mới )</h1>
+
+<h1 class="display-5 mb-4"> <?php echo $this->compact('article') ? 'Update Article ' . $this->compact('article')->title . '( cập nhật bài viết )' : 'Create Article ( bài viết mới )' ?> </h1>
 <hr>
 <form action="index.php?group=admin&active=postcreatearticle" method="POST" enctype="multipart/form-data">
 

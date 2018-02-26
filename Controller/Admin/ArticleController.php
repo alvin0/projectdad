@@ -36,6 +36,33 @@ class ArticleController
         Route::callRouteUrl('articlelist', 'admin');
     }
 
+    public function getupdate($id)
+    {
+        $article = DB::table('article')->find($id);
+        $view    = new View('admin/article/create', ['article' => $article]);
+        print $view;
+    }
+
+    public function postupdate($id)
+    {
+        $article                      = DB::table('article')->find(1);
+        $article->category_article_id = 1;
+        $article->title               = $_POST['title'];
+
+        if (isset($_POST['image_index'])) {
+            $article->image_index = $this->ImagePost('image_index', 'article') ? $this->ImagePost('image_index', 'article/') : 'null';
+        }
+        $article->snippet     = $_POST['snippet'];
+        $article->content     = $_POST['content'];
+        $article->view        = 0;
+        $article->show_boolen = isset($_POST['show_boolen']) ? 1 : 0;
+        $article->updated_at  = date('Y/m/d H:i:s');
+        $view                 = new View('admin/article/create');
+        $article->save();
+        Route::callRouteUrl('articlelist', 'admin');
+        print $view;
+    }
+
     public function ImagePost($input, $path = '')
     {
         $errors = 0;
@@ -66,7 +93,7 @@ class ArticleController
                 // đặt tên mới cho file hình up lên
                 $image_name = time() . '.' . $extension;
                 // gán thêm cho file này đường dẫn
-                $pathfolder = "storage/" . str_replace('.', '/', $path);
+                $pathfolder = "storage/www/" . str_replace('.', '/', $path);
                 if (!file_exists($pathfolder)) {
                     mkdir($pathfolder, 0777, true);
                 }

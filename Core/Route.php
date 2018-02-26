@@ -72,7 +72,7 @@ class Route
     public function route()
     {
         $this->checkSecurityFormPost();
-        $active = null;
+        $active = isset($this->arrayRoute['index']) ? 'index' : null;
         $group  = isset($_GET['group']) ? $_GET['group'] : null;
         if (isset($_GET['active'])) {
             if ($_GET['active'] == 'alvin' && $group == null) {
@@ -80,9 +80,10 @@ class Route
             } else {
                 $active = $_GET['active'];
             }
-        } else {
-            return include View . $this->defautlPatch;
         }
+        //  else {
+        //     return include View . $this->defautlPatch;
+        // }
         if (isset($this->arrayRoute[$active]) || isset($this->arrayRoute[$group]['group'][$active])) {
             $parameter = $this->checkGetParam($_GET) ? $this->checkGetParam($_GET) : null;
             if ($active != null) {

@@ -58,7 +58,10 @@ class View
 
     public function compact($file)
     {
-        return $this->compact[$file];
+        if (isset($this->compact[$file])) {
+            return $this->compact[$file];
+        }
+        return false;
     }
 
     /**

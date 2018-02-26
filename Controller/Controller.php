@@ -1,10 +1,15 @@
 <?php
 namespace Controller;
 
+use Core\View as View;
+use Lazer\Classes\Database as DB;
+
 class Controller
 {
-    public function filemanager()
+    public function index()
     {
-        include View . 'filemanager.php';
+        $article = DB::table('article')->findAll();
+        $view    = new View('home/index', ['article' => $article]);
+        print $view;
     }
 }

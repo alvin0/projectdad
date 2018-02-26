@@ -12,6 +12,7 @@ include_once "Config/config.php";
 include_once "Core/Route.php";
 include_once "Core/View.php";
 include_once "Model/CreateModels.php";
+include_once "Helper/helper.php";
 
 $app         = new Core\Route();
 $rundatajson = new Model\CreateModels();
