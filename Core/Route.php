@@ -46,6 +46,7 @@ class Route
     {
         unset($get['active']);
         unset($get['group']);
+        unset($get['page']);
         if (sizeof($get) > 0) {
             return $get;
         }

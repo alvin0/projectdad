@@ -109,8 +109,11 @@ $is_https = isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['
 $root_path = rtrim($root_path, '\\/');
 $root_path = str_replace('\\', '/', $root_path);
 if (!@is_dir($root_path)) {
-    echo "<h1>Root path \"{$root_path}\" not found!</h1>";
-    exit;
+    $root_path = $_SERVER['DOCUMENT_ROOT'] . "/cdln/storage";
+    if (!@is_dir($root_path)) {
+        echo "<h1>Root path \"{$root_path}\" not found!</h1>";
+        exit;
+    }
 }
 
 // clean $root_url

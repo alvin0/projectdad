@@ -106,21 +106,27 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
         $this->pagination['lastPage']    = $this->pagination['totalPage'];
         $this->pagination['nextPage']    = $this->pagination['totalPage'] > $this->pagination['thisPage'] ? $this->pagination['thisPage'] + 1 : $this->pagination['thisPage'];
         $this->pagination['currentPage'] = $this->pagination['thisPage'] > 1 ? $this->pagination['thisPage'] - 1 : $this->pagination['thisPage'];
-        $this->getPagination($length, $this->pagination['thisPage']);
+        $this->getPaginations($length, $this->pagination['thisPage']);
 
         return clone $this;
     }
     /**
-     * getPagination get data show with pagination
+     * getPaginations get data show with pagination
      * @param  [integer] $length [length array data show]
      * @param  [integer] $page   [page show]
      * @return [data]         [data show]
      */
-    public function getPagination($length, $page)
+    public function getPaginations($length, $page)
     {
         $start      = $page != 1 ? ($page - 1) * $length : 0;
         $this->data = array_slice($this->data, $start, $length);
     }
+
+    public function getPage()
+    {
+        return $this->pagination;
+    }
+
     /**
      * Factory pattern
      * @param string $name Name of table
