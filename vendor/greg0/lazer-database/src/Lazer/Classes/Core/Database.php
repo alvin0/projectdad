@@ -2,10 +2,10 @@
 
 namespace Lazer\Classes;
 
-use Lazer\Classes\LazerException;
 use Lazer\Classes\Database;
-use Lazer\Classes\Relation;
 use Lazer\Classes\Helpers;
+use Lazer\Classes\LazerException;
+use Lazer\Classes\Relation;
 
 /**
  * Core class of Lazer.
@@ -20,7 +20,8 @@ use Lazer\Classes\Helpers;
  * @license http://opensource.org/licenses/MIT The MIT License
  * @link https://github.com/Greg0/Lazer-Database GitHub Repository
  */
-abstract class Core_Database implements \IteratorAggregate, \Countable {
+abstract class Core_Database implements \IteratorAggregate, \Countable
+{
 
     /**
      * Contain returned data from file as object or array of objects
@@ -66,6 +67,61 @@ abstract class Core_Database implements \IteratorAggregate, \Countable {
     protected $resetKeys = 1;
 
     /**
+     * total item in table
+     * @var integer
+     */
+    protected $total = 0;
+
+    /**
+     * pagination function with values
+     * @see \Lazer\Classes\Core_Database::setPagination()
+     * @var array
+     */
+    protected $pagination;
+
+    /**
+     * setPagination create pagination
+     */
+    public function setPagination()
+    {
+        $this->pagination = array(
+            'totalPage'   => 1,
+            'nextPage'    => 1,
+            'lastPage'    => 1,
+            'thisPage'    => 1,
+            'currentPage' => 1,
+        );
+    }
+    /**
+     * [pagination set param when call function pagination]
+     * @param  [integer] $length [length array data show]
+     * @return [data]         [data show]
+     */
+    public function pagination($length)
+    {
+        $this->pending();
+        $this->data                      = $this->resetKeys ? array_values($this->data) : $this->data;
+        $this->pagination['totalPage']   = max((int) ceil($this->total / $length), 1);
+        $this->pagination['thisPage']    = isset($_GET['page']) ? ($_GET['page'] >= $this->pagination['totalPage'] ? $this->pagination['totalPage'] : $_GET['page']) : 1;
+        $this->pagination['lastPage']    = $this->pagination['totalPage'];
+        $this->pagination['nextPage']    = $this->pagination['totalPage'] > $this->pagination['thisPage'] ? $this->pagination['thisPage'] + 1 : $this->pagination['thisPage'];
+        $this->pagination['currentPage'] = $this->pagination['thisPage'] > 1 ? $this->pagination['thisPage'] - 1 : $this->pagination['thisPage'];
+        $this->getPagination($length, $this->pagination['thisPage']);
+
+        return clone $this;
+    }
+    /**
+     * getPagination get data show with pagination
+     * @param  [integer] $length [length array data show]
+     * @param  [integer] $page   [page show]
+     * @return [data]         [data show]
+     */
+    public function getPagination($length, $page)
+    {
+        $start      = $page != 1 ? ($page - 1) * $length : 0;
+        $this->data = array_slice($this->data, $start, $length);
+    }
+    /**
      * Factory pattern
      * @param string $name Name of table
      * @return \Lazer\Classes\Database
@@ -80,6 +136,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable {
 
         $self->setFields();
         $self->setPending();
+        $self->setPagination();
 
         return $self;
     }
@@ -99,7 +156,9 @@ abstract class Core_Database implements \IteratorAggregate, \Countable {
      */
     protected function setData()
     {
-        $this->data = $this->getData();
+        $this->data  = $this->getData();
+        $this->total = sizeof($this->data);
+
     }
 
     /**
@@ -110,10 +169,8 @@ abstract class Core_Database implements \IteratorAggregate, \Countable {
      */
     protected function getRowKey($id)
     {
-        foreach ($this->getData() as $key => $data)
-        {
-            if ($data->id == $id)
-            {
+        foreach ($this->getData() as $key => $data) {
+            if ($data->id == $id) {
                 return $key;
                 break;
             }
@@ -126,7 +183,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable {
      */
     protected function clearKeyInfo()
     {
-        $this->currentId  = $this->currentKey = NULL;
+        $this->currentId = $this->currentKey = null;
     }
 
     /**
@@ -138,14 +195,10 @@ abstract class Core_Database implements \IteratorAggregate, \Countable {
         $this->set = new \stdClass();
         $schema    = $this->schema();
 
-        foreach ($schema as $field => $type)
-        {
-            if (Helpers\Validate::isNumeric($type) AND $field != 'id')
-            {
+        foreach ($schema as $field => $type) {
+            if (Helpers\Validate::isNumeric($type) and $field != 'id') {
                 $this->set->{$field} = 0;
-            }
-            else
-            {
+            } else {
                 $this->set->{$field} = null;
             }
         }
@@ -183,8 +236,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable {
      */
     public function __set($name, $value)
     {
-        if (Helpers\Validate::table($this->name)->field($name) && Helpers\Validate::table($this->name)->type($name, $value))
-        {
+        if (Helpers\Validate::table($this->name)->field($name) && Helpers\Validate::table($this->name)->type($name, $value)) {
             $this->set->{$name} = $value;
         }
     }
@@ -196,8 +248,9 @@ abstract class Core_Database implements \IteratorAggregate, \Countable {
      */
     public function __get($name)
     {
-        if (isset($this->set->{$name}))
+        if (isset($this->set->{$name})) {
             return $this->set->{$name};
+        }
 
         throw new LazerException('There is no data');
     }
@@ -218,10 +271,8 @@ abstract class Core_Database implements \IteratorAggregate, \Countable {
     protected function pending()
     {
         $this->setData();
-        foreach ($this->pending as $func => $args)
-        {
-            if (!empty($args))
-            {
+        foreach ($this->pending as $func => $args) {
+            if (!empty($args)) {
                 call_user_func(array($this, $func . 'Pending'));
             }
         }
@@ -264,17 +315,15 @@ abstract class Core_Database implements \IteratorAggregate, \Countable {
     {
         $fields = Helpers\Validate::arrToLower($fields);
 
-        if (Helpers\Data::table($name)->exists() && Helpers\Config::table($name)->exists())
-        {
-            throw new LazerException('helper\Table "' . $name . '" already exists');
+        if (Helpers\Data::table($name)->exists() && Helpers\Config::table($name)->exists()) {
+            throw new LazerException('Table ' . $name . ' already exist');
         }
 
         $types = array_values($fields);
 
         Helpers\Validate::types($types);
 
-        if (!array_key_exists('id', $fields))
-        {
+        if (!array_key_exists('id', $fields)) {
             $fields = array('id' => 'integer') + $fields;
         }
 
@@ -296,9 +345,8 @@ abstract class Core_Database implements \IteratorAggregate, \Countable {
      */
     public static function remove($name)
     {
-        if (Helpers\Data::table($name)->remove() && Helpers\Config::table($name)->remove())
-        {
-            return TRUE;
+        if (Helpers\Data::table($name)->remove() && Helpers\Config::table($name)->remove()) {
+            return true;
         }
     }
 
@@ -309,8 +357,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable {
      */
     public function groupBy($column)
     {
-        if (Helpers\Validate::table($this->name)->field($column))
-        {
+        if (Helpers\Validate::table($this->name)->field($column)) {
             $this->resetKeys             = 0;
             $this->pending[__FUNCTION__] = $column;
         }
@@ -326,8 +373,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable {
         $column = $this->pending['groupBy'];
 
         $grouped = array();
-        foreach ($this->data as $object)
-        {
+        foreach ($this->data as $object) {
             $grouped[$object->{$column}][] = $object;
         }
 
@@ -351,8 +397,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable {
     protected function withPending()
     {
         $joins = $this->pending['with'];
-        foreach ($joins as $join)
-        {
+        foreach ($joins as $join) {
             $local   = (count($join) > 1) ? array_slice($join, -2, 1)[0] : $this->name;
             $foreign = end($join);
 
@@ -360,8 +405,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable {
 
             $data = $this->data;
 
-            foreach ($join as $part)
-            {
+            foreach ($join as $part) {
                 $data = $relation->build($data, $part);
             }
         }
@@ -375,11 +419,10 @@ abstract class Core_Database implements \IteratorAggregate, \Countable {
      */
     public function orderBy($key, $direction = 'ASC')
     {
-        if (Helpers\Validate::table($this->name)->field($key))
-        {
-            $directions                        = array(
+        if (Helpers\Validate::table($this->name)->field($key)) {
+            $directions = array(
                 'ASC'  => SORT_ASC,
-                'DESC' => SORT_DESC
+                'DESC' => SORT_DESC,
             );
             $this->pending[__FUNCTION__][$key] = isset($directions[$direction]) ? $directions[$direction] : 'ASC';
         }
@@ -395,39 +438,30 @@ abstract class Core_Database implements \IteratorAggregate, \Countable {
     protected function orderByPending()
     {
         $properties = $this->pending['orderBy'];
-        uasort($this->data, function($a, $b) use ($properties)
-        {
-            foreach ($properties as $column => $direction)
-            {
-                if (is_int($column))
-                {
+        uasort($this->data, function ($a, $b) use ($properties) {
+            foreach ($properties as $column => $direction) {
+                if (is_int($column)) {
                     $column    = $direction;
                     $direction = SORT_ASC;
                 }
-                $collapse = function($node, $props)
-                {
-                    if (is_array($props))
-                    {
-                        foreach ($props as $prop)
-                        {
+                $collapse = function ($node, $props) {
+                    if (is_array($props)) {
+                        foreach ($props as $prop) {
                             $node = (!isset($node->$prop)) ? null : $node->$prop;
                         }
                         return $node;
-                    }
-                    else
-                    {
+                    } else {
                         return (!isset($node->$props)) ? null : $node->$props;
                     }
                 };
                 $aProp = $collapse($a, $column);
                 $bProp = $collapse($b, $column);
 
-                if ($aProp != $bProp)
-                {
+                if ($aProp != $bProp) {
                     return ($direction == SORT_ASC) ? strnatcasecmp($aProp, $bProp) : strnatcasecmp($bProp, $aProp);
                 }
             }
-            return FALSE;
+            return false;
         });
     }
 
@@ -504,46 +538,39 @@ abstract class Core_Database implements \IteratorAggregate, \Countable {
             '>='  => '>=',
             '<='  => '<=',
             'and' => '&&',
-            'or'  => '||'
+            'or'  => '||',
         );
 
-        $this->data = array_filter($this->data, function($row) use ($operator)
-        {
+        $this->data = array_filter($this->data, function ($row) use ($operator) {
             $clause = '';
             $result = true;
 
-            foreach ($this->pending['where'] as $key => $condition)
-            {
+            foreach ($this->pending['where'] as $key => $condition) {
                 extract($condition);
 
-                if (is_array($value) && $op == 'IN')
-                {
+                if (is_array($value) && $op == 'IN') {
                     $value = (in_array($row->{$field}, $value)) ? 1 : 0;
                     $op    = '==';
                     $field = 1;
-                }
-                elseif (!is_array($value) && in_array($op, array('LIKE', 'like')))
-                {
+                } elseif (!is_array($value) && in_array($op, array('LIKE', 'like'))) {
                     $regex = "/^" . str_replace('%', '(.*?)', preg_quote($value)) . "$/si";
                     $value = preg_match($regex, $row->{$field});
                     $op    = '==';
                     $field = 1;
-                }
-                elseif (!is_array($value) && $op != 'IN')
-                {
+                } elseif (!is_array($value) && $op != 'IN') {
                     $value = is_string($value) ?
-                        '\'' . mb_strtolower($value) . '\'' :
-                        $value;
+                    '\'' . mb_strtolower($value) . '\'' :
+                    $value;
 
                     $op    = $operator[$op];
                     $field = is_string($row->{$field}) ?
-                        'mb_strtolower($row->' . $field .')' :
-                        '$row->' . $field;
+                    'mb_strtolower($row->' . $field . ')' :
+                    '$row->' . $field;
                 }
 
                 $type = (!$key) ?
-                    null :
-                    $operator[$type];
+                null :
+                $operator[$type];
 
                 $query = array($type, $field, $op, $value);
                 $clause .= implode(' ', $query) . ' ';
@@ -563,68 +590,43 @@ abstract class Core_Database implements \IteratorAggregate, \Countable {
      */
     public function asArray($key = null, $value = null)
     {
-        if (!is_null($key))
-        {
+        if (!is_null($key)) {
             Helpers\Validate::table($this->name)->field($key);
         }
-        if (!is_null($value))
-        {
+        if (!is_null($value)) {
             Helpers\Validate::table($this->name)->field($value);
         }
 
         $datas = array();
-        if (!$this->resetKeys)
-        {
-            if (is_null($key) && is_null($value))
-            {
+        if (!$this->resetKeys) {
+            if (is_null($key) && is_null($value)) {
                 return $this->data;
-            }
-            else
-            {
-                foreach ($this->data as $rowKey => $data)
-                {
+            } else {
+                foreach ($this->data as $rowKey => $data) {
                     $datas[$rowKey] = array();
-                    foreach ($data as $row)
-                    {
-                        if (is_null($key))
-                        {
+                    foreach ($data as $row) {
+                        if (is_null($key)) {
                             $datas[$rowKey][] = $row->{$value};
-                        }
-                        elseif (is_null($value))
-                        {
+                        } elseif (is_null($value)) {
                             $datas[$rowKey][$row->{$key}] = $row;
-                        }
-                        else
-                        {
+                        } else {
                             $datas[$rowKey][$row->{$key}] = $row->{$value};
                         }
                     }
                 }
             }
-        }
-        else
-        {
-            if (is_null($key) && is_null($value))
-            {
-                foreach ($this->data as $data)
-                {
+        } else {
+            if (is_null($key) && is_null($value)) {
+                foreach ($this->data as $data) {
                     $datas[] = get_object_vars($data);
                 }
-            }
-            else
-            {
-                foreach ($this->data as $data)
-                {
-                    if (is_null($key))
-                    {
+            } else {
+                foreach ($this->data as $data) {
+                    if (is_null($key)) {
                         $datas[] = $data->{$value};
-                    }
-                    elseif (is_null($value))
-                    {
+                    } elseif (is_null($value)) {
                         $datas[$data->{$key}] = $data;
-                    }
-                    else
-                    {
+                    } else {
                         $datas[$data->{$key}] = $data->{$value};
                     }
                 }
@@ -646,7 +648,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable {
     {
         $this->pending['limit'] = array(
             'offset' => $offset,
-            'number' => $number
+            'number' => $number,
         );
 
         return $this;
@@ -675,20 +677,19 @@ abstract class Core_Database implements \IteratorAggregate, \Countable {
         $schema = $this->schema();
         $fields = array_diff_assoc($fields, $schema);
 
-        if (!empty($fields))
-        {
+        if (!empty($fields)) {
             $config         = $this->config();
             $config->schema = array_merge($schema, $fields);
 
             $data = $this->getData();
-            foreach ($data as $key => $object)
-            {
-                foreach ($fields as $name => $type)
-                {
-                    if (Helpers\Validate::isNumeric($type))
+            foreach ($data as $key => $object) {
+                foreach ($fields as $name => $type) {
+                    if (Helpers\Validate::isNumeric($type)) {
                         $data[$key]->{$name} = 0;
-                    else
+                    } else {
                         $data[$key]->{$name} = null;
+                    }
+
                 }
             }
 
@@ -711,10 +712,8 @@ abstract class Core_Database implements \IteratorAggregate, \Countable {
         $config->schema = array_diff_key($this->schema(), array_flip($fields));
 
         $data = $this->getData();
-        foreach ($data as $key => $object)
-        {
-            foreach ($fields as $name)
-            {
+        foreach ($data as $key => $object) {
+            foreach ($fields as $name) {
                 unset($data[$key]->{$name});
             }
         }
@@ -783,8 +782,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable {
     public function save()
     {
         $data = $this->getData();
-        if (!$this->currentId)
-        {
+        if (!$this->currentId) {
             $config = $this->config();
             $config->last_id++;
 
@@ -792,9 +790,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable {
             array_push($data, $this->set);
 
             Helpers\Config::table($this->name)->put($config);
-        }
-        else
-        {
+        } else {
             $this->set->id           = $this->currentId;
             $data[$this->currentKey] = $this->set;
         }
@@ -811,12 +807,9 @@ abstract class Core_Database implements \IteratorAggregate, \Countable {
     public function delete()
     {
         $data = $this->getData();
-        if (isset($this->currentId))
-        {
+        if (isset($this->currentId)) {
             unset($data[$this->currentKey]);
-        }
-        else
-        {
+        } else {
             $this->pending();
             $old  = $data;
             $data = array_diff_key($old, $this->data);
@@ -832,16 +825,12 @@ abstract class Core_Database implements \IteratorAggregate, \Countable {
      */
     public function count()
     {
-        if (!$this->resetKeys)
-        {
+        if (!$this->resetKeys) {
             $count = array();
-            foreach ($this->data as $group => $data)
-            {
+            foreach ($this->data as $group => $data) {
                 $count[$group] = count($data);
             }
-        }
-        else
-        {
+        } else {
             $count = count($this->data);
         }
 
@@ -853,26 +842,20 @@ abstract class Core_Database implements \IteratorAggregate, \Countable {
      * @param integer $id Row ID
      * @return \Lazer\Classes\Core_Database
      */
-    public function find($id = NULL)
+    public function find($id = null)
     {
-        if ($id !== NULL)
-        {
+        if ($id !== null) {
             $data             = $this->getData();
             $this->currentId  = $id;
             $this->currentKey = $this->getRowKey($id);
-            foreach ($data[$this->currentKey] as $field => $value)
-            {
+            foreach ($data[$this->currentKey] as $field => $value) {
                 $this->set->{$field} = $value;
             }
-        }
-        else
-        {
+        } else {
             $this->limit(1)->findAll();
             $data = $this->data;
-            if (count($data))
-            {
-                foreach ($data[0] as $field => $value)
-                {
+            if (count($data)) {
+                foreach ($data[0] as $field => $value) {
                     $this->set->{$field} = $value;
                 }
 
@@ -909,40 +892,27 @@ abstract class Core_Database implements \IteratorAggregate, \Countable {
     public function debug()
     {
         $print = "Lazer::table(" . $this->name . ")\n";
-        foreach ($this->pending as $function => $values)
-        {
-            if (!empty($values))
-            {
+        foreach ($this->pending as $function => $values) {
+            if (!empty($values)) {
 
-                if (is_array($values))
-                {
-                    if (is_array(reset($values)))
-                    {
-                        foreach ($values as $value)
-                        {
-                            if ($function == 'where')
-                            {
+                if (is_array($values)) {
+                    if (is_array(reset($values))) {
+                        foreach ($values as $value) {
+                            if ($function == 'where') {
                                 array_shift($value);
                             }
-                            if ($function == 'with')
-                            {
+                            if ($function == 'with') {
                                 $params = implode(':', $value);
-                            }
-                            else
-                            {
+                            } else {
                                 $params = implode(', ', $value);
                             }
                             $print .= "\t" . '->' . $function . '(' . $params . ')' . "\n";
                         }
-                    }
-                    else
-                    {
+                    } else {
                         $params = implode(', ', $values);
                         $print .= "\t" . '->' . $function . '(' . $params . ')' . "\n";
                     }
-                }
-                else
-                {
+                } else {
                     $print .= "\t" . '->' . $function . '(' . $values . ')' . "\n";
                 }
             }
