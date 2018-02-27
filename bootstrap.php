@@ -29,9 +29,9 @@ $rundatajson = new Model\CreateModels();
 $rundatajson->boot();
 $rundatajsonrelation = new Model\RelationsModel();
 $rundatajsonrelation->boot();
-$rundataDBStart = new Model\DBStart();
-$rundataDBStart->boot();
-// unlink($file)
-// run Route
+if (defined('RunDBStart') && RunDBStart) {
+    $rundataDBStart = new Model\DBStart();
+    $rundataDBStart->boot();
+}
 $app = new Core\Route();
 return $app->route();

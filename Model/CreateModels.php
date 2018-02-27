@@ -13,6 +13,8 @@ class CreateModels
     {
         $this->CreateDBJsonArticle();
         $this->CreateDBJsonCategoryArticle();
+        $this->CreateDBJsonContact();
+        $this->CreateDBJsonAbout();
         $this->CreateDBJsonUsers();
     }
 
@@ -58,6 +60,40 @@ class CreateModels
                 'email'      => 'string',
                 'password'   => 'string',
                 'role'       => 'integer',
+                'created_at' => 'string',
+                'updated_at' => 'string',
+            ));
+        } catch (\Lazer\Classes\LazerException $e) {
+            return false;
+        }
+    }
+
+    public function CreateDBJsonContact()
+    {
+        try {
+            DB::create('contacts', array(
+                'id'         => 'integer',
+                'name'       => 'string',
+                'email'      => 'string',
+                'phone'      => 'string',
+                'content'    => 'string',
+                'created_at' => 'string',
+                'updated_at' => 'string',
+            ));
+        } catch (\Lazer\Classes\LazerException $e) {
+            return false;
+        }
+    }
+
+    public function CreateDBJsonAbout()
+    {
+        try {
+            DB::create('about', array(
+                'id'         => 'integer',
+                'title'      => 'string',
+                'image'      => 'string',
+                'snippet'    => 'string',
+                'content'    => 'string',
                 'created_at' => 'string',
                 'updated_at' => 'string',
             ));

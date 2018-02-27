@@ -7,7 +7,23 @@
 <input type="hidden" name="_token" value="<?php echo _token; ?>" />
 
 	<div class="form-group row">
-	  <label for="example-text-input" class="col-2 col-form-label">Title ( Tiêu Đề )</label>
+	  <label for="example-text-input" class="col-2 col-form-label">Category ( Danh mục bài viết )</label>
+	  <div class="col-10">
+	  	<div class="select2-wrapper">
+		    <select name="category_article_id" class="form-control select2-single select" id="dropdown" >
+				<?php foreach ($this->compact('category_articles') as $category) {
+    ?>
+					<option value="<?php echo $category->id ?>" <?php if (isset($this->compact('article')->category_article_id)) {echo $category->id == $this->compact('article')->category_article_id ? "selected" : '';}?>><?php echo $category->name ?></option>
+				<?php
+}
+?>
+			</select>
+		</div>
+	  </div>
+	</div>
+
+	<div class="form-group row">
+	  <label for="example-text-input" class="col-2 col-form-label">Title ( Tiêu đề )</label>
 	  <div class="col-10">
 	    <input class="form-control" type="text" name="title" id="example-text-input " value="<?php echo isset($this->compact('article')->title) ? $this->compact('article')->title : '' ?>" placeholder="Title (Tiêu Đề)">
 	  </div>
@@ -69,8 +85,14 @@
 
 <?php $this->start();?>
 <script src="https://cdn.ckeditor.com/ckeditor5/1.0.0-alpha.2/classic/ckeditor.js"></script>
-
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 <script>
+
+$(document).ready(function() {
+    $('.select2-single').select2();
+});
+
 $('.custom-file-inputs').on('change',function(){
     var fileName = $(this).val();
     readURL(this);
@@ -90,12 +112,12 @@ function readURL(input) {
   }
 }
 
-
 ClassicEditor
     .create( document.querySelector( '#content') )
     .catch( error => {
         console.error( error );
     } );
+
 </script>
 <?php $this->end('script');?>
 

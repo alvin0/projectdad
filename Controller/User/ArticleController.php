@@ -14,7 +14,9 @@ class ArticleController
         $article       = DB::table('article')->find($id);
         $article->view = $article->view + 1;
         $article->save();
-        $view = new View('home/article/detail', ['article' => $article]);
+        $view              = new View('home/article/detail', ['article' => $article]);
+        $view->title       = $article->title;
+        $view->description = \Helper\Helper::shorten_string($article->snippet, 10);
         print $view;
     }
 }

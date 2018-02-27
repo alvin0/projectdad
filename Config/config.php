@@ -15,5 +15,5 @@ if (defined('SECURITYPOST') && SECURITYPOST) {
         $_SESSION['_token'] = $_token;
     }
     define('_token', $_SESSION['_token']); // security for form POST (true or false)
-
 }
+define('RunDBStart', false);

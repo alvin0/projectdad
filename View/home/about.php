@@ -1,6 +1,6 @@
 <?php $this->start();?>
 <!-- Page Header -->
-<header class="masthead" style="background-image: url('<?php echo $this->compact('article')->image_index; ?>')">
+<header class="masthead" style="background-image: url('View/home/style/img/about-bg.jpg')">
   <div class="overlay"></div>
   <div class="container">
     <div class="row">

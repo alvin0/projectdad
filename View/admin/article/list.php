@@ -5,7 +5,7 @@
 <table class="table listDatatable table-striped table-bordered" cellspacing="0" width="100%">
     <thead>
         <tr>
-            <th>Id (Mã)</th>
+            <th>Id</th>
             <th>Title</th>
             <th>Category (Danh mục)</th>
             <th>Show on home</th>
@@ -16,7 +16,7 @@
     </thead>
     <tfoot>
         <tr>
-            <th>Id (Mã)</th>
+            <th>Id</th>
             <th>Title</th>
             <th>Category (Danh mục)</th>
             <th>Show on home</th>
@@ -30,7 +30,7 @@
         <tr>
             <td><?php echo $item->id; ?></td>
             <td data-toggle="tooltip" data-placement="bottom" title="<?php echo $item->title; ?>"><?php echo Helper\Helper::shorten_string($item->title, 10); ?></td>
-            <td><?php echo $item->category_article_id; ?></td>
+            <td><?php echo $item->Category_articles->name; ?></td>
             <td><?php echo $item->show_boolen == 0 ? "hide" : 'show'; ?></td>
             <td><?php echo $item->created_at; ?></td>
             <td><?php echo $item->view; ?></td>
@@ -55,7 +55,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <form action="?group=admin&active=postdelete" method="POST">
+        <form action="?group=admin&active=postarticledelete" method="POST">
             <input type="hidden" name="_token" value="<?php echo _token; ?>" />
             <input type="hidden" name="idArticleDelete" id="idArticleDelete" value=""/>
             <button type="submit" class="btn btn-primary">OK</button>
