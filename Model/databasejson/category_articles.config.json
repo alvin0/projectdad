@@ -1,0 +1,1 @@
+{"last_id":21,"schema":{"id":"integer","name":"string"},"relations":{"article":{"type":"hasMany","keys":{"local":"id","foreign":"category_article_id"}}}}

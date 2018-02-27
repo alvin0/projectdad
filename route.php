@@ -5,10 +5,13 @@ $route = [
     'admin'         => [
         'group' => [
             'home'              => ['use' => 'Admin\ArticleController@getlist'],
+            //article
             'articlelist'       => ['use' => 'Admin\ArticleController@getlist'],
             'articlenew'        => ['use' => 'Admin\ArticleController@getcreate'],
             'postcreatearticle' => ['use' => 'Admin\ArticleController@postcreate'],
             'articleupdate'     => ['use' => 'Admin\ArticleController@getupdate'],
+            'postdelete'        => ['use' => 'Admin\ArticleController@postDelete'],
+            //end article
         ]],
     'articledetail' => ['use' => 'User\ArticleController@getDetails'],
 

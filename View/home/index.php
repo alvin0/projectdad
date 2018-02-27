@@ -33,7 +33,7 @@
         </a>
         <p class="post-meta">Posted by
           <a href="#">Admin</a>
-          on <?php echo $item->created_at; ?> | View : <?php echo $item->view; ?> </p>
+          on <?php echo $item->created_at; ?> | View : <?php echo $item->view; ?> | Category : <?php echo $item->Category_articles->name; ?></p>
       </div>
       <hr>
       <?php }?>
@@ -54,7 +54,7 @@
       <div class="list-group">
             <a href="#" class="list-group-item active center">Bài được xem nhiều</a>
             <?php foreach ($this->compact('articlehot') as $articlehot) {?>
-            <a href="?active=articledetail&id=<?php echo $articlehot->id; ?>" class="list-group-item"> <?php echo Helper\Helper::shorten_string($articlehot->title, 5); ?> </a>
+            <a href="?active=articledetail&id=<?php echo $articlehot->id; ?>" class="list-group-item" data-toggle="tooltip" data-placement="right" title="<?php echo $articlehot->title; ?>"> <?php echo Helper\Helper::shorten_string($articlehot->title, 5); ?> </a>
             <?php }?>
           </div>
     </div>

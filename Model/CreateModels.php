@@ -13,6 +13,7 @@ class CreateModels
     {
         $this->CreateDBJsonArticle();
         $this->CreateDBJsonCategoryArticle();
+        $this->CreateDBJsonUsers();
     }
 
     public function CreateDBJsonArticle()
@@ -39,9 +40,26 @@ class CreateModels
     public function CreateDBJsonCategoryArticle()
     {
         try {
-            DB::create('category_article', array(
-                'id'    => 'integer',
-                'title' => 'string',
+            DB::create('category_articles', array(
+                'id'   => 'integer',
+                'name' => 'string',
+            ));
+        } catch (\Lazer\Classes\LazerException $e) {
+            return false;
+        }
+    }
+
+    public function CreateDBJsonUsers()
+    {
+        try {
+            DB::create('users', array(
+                'id'         => 'integer',
+                'name'       => 'string',
+                'email'      => 'string',
+                'password'   => 'string',
+                'role'       => 'integer',
+                'created_at' => 'string',
+                'updated_at' => 'string',
             ));
         } catch (\Lazer\Classes\LazerException $e) {
             return false;

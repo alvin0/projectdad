@@ -17,8 +17,3 @@ if (defined('SECURITYPOST') && SECURITYPOST) {
     define('_token', $_SESSION['_token']); // security for form POST (true or false)
 
 }
-function dd($value)
-{
-    print_r($value);
-    die;
-}
