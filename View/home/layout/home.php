@@ -8,7 +8,7 @@
 
     <meta property="og:type"               content="article" />
     <meta property="og:title"              content="<?php print isset($title) ? $title : 'Home';?> | CDLN<" />
-    <meta property="og:description"              content="<?php print isset($description) ? $description : 'Alvin Framework';?><" />
+    <meta property="og:description"              content="<?php print isset($description) ? $description : 'Alvin Framework'?>" />
     <meta property="og:image"              content="https://scontent.fsgn2-1.fna.fbcdn.net/v/t1.0-9/25442848_1759436517434700_1075084585281713357_n.jpg?oh=6313d05cf7531674c9cc42cce3b288f3&oe=5B4D5744" />
 
     <title><?php print isset($title) ? $title : 'Home';?> | CDLN</title>
