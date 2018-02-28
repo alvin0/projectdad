@@ -12,9 +12,9 @@ class DBStart
 
     public function boot()
     {
-        $this->User();
-        $this->CategoryArticle();
-        $this->Article();
+        // $this->User();
+        // $this->CategoryArticle();
+        // $this->Article();
     }
 
     public function User()

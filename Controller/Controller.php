@@ -18,7 +18,6 @@ class Controller
 
         $article           = DB::table('article')->where('category_article_id', '=', $id)->orderBy('created_at', 'desc')->with('category_articles')->pagination(6);
         $category_articles = DB::table('category_articles')->find($id);
-        dd($category_articles);
         if ($category_articles) {
             $page = $article->getPage();
             $view = new View('home/index', ['article' => $article, 'page' => $page]);

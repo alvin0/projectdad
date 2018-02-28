@@ -851,7 +851,8 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
             $data             = $this->getData();
             $this->currentId  = $id;
             $this->currentKey = $this->getRowKey($id);
-            if ($this->currentKey) {
+
+            if (isset($data[$this->currentKey])) {
                 foreach ($data[$this->currentKey] as $field => $value) {
                     $this->set->{$field} = $value;
                 }
