@@ -24,6 +24,9 @@
           <?php echo nl2br($this->compact('article')->content); ?>
         <p>Thời gian tạo bài viết : <?php echo $this->compact('article')->created_at; ?> </p>
         </div>
+
+    <?php include 'View/home/layout/include/menu_right.php';?>
+
       </div>
     </div>
   </article>

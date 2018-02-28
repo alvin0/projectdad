@@ -1,6 +1,6 @@
 <?php $this->start();?>
 
-<h1 class="display-5 mb-4"> <?php echo $this->compact('category_articles') ? 'Update Article ( cập nhật danh mục bài viết ) : ' . $this->compact('category_articles')->name : 'Create Category Article ( Tạo danh mục bài viết mới )' ?> </h1>
+<h1 class="display-5 mb-4"> <?php echo $this->compact('category_articles') ? 'Update Category Article ( cập nhật danh mục bài viết ) : ' . $this->compact('category_articles')->name : 'Create Category Article ( Tạo danh mục bài viết mới )' ?> </h1>
 <hr>
 <form action="index.php?group=admin&active=postcategoryarticlenew<?php echo $this->compact('category_articles') ? '&id=' . $this->compact('category_articles')->id : '' ?>" method="POST" enctype="multipart/form-data">
 

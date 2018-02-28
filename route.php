@@ -1,7 +1,7 @@
 <?php
 $route = [
     'index'         => ['use' => 'Controller@index'], // this is route default when load
-    'home2'         => ['use' => 'CallTest2Test'],
+    'category'      => ['use' => 'Controller@categoryArticle'],
     'admin'         => [
         'group' => [
             'home'                   => ['use' => 'Admin\ArticleController@getlist'],

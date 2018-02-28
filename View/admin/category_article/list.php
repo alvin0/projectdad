@@ -1,5 +1,5 @@
 <?php $this->start();?>
-<h1 class="display-5 mb-4">List Article ( Danh sách bài viết )</h1>
+<h1 class="display-5 mb-4">List Category Article ( Danh sách bài viết )</h1>
 <a href="?group=admin&active=categoryarticlenew"><h2 class="display-5 mb-4"><i class="fa fa-plus-square" style="font-size:48px;color:red"></i> Create ( Tạo mới )</h2></a>
 <hr>
 <table class="table listDatatable table-striped table-bordered" cellspacing="0" width="100%">

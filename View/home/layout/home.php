@@ -46,6 +46,7 @@
 
     <!-- Custom scripts for this template -->
     <script src="View/home/style/js/clean-blog.min.js"></script>
+    <script src="View/home/style/js/myscript.js"></script>
     <?php print $this->block('script');?>
   </body>
 

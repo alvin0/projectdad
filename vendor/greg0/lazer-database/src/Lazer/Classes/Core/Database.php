@@ -100,14 +100,13 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
     public function pagination($length)
     {
         $this->pending();
-        $this->data                      = $this->resetKeys ? array_values($this->data) : $this->data;
+        $this->data                      = $this->resetKeys ? array_values($this->data) : null;
         $this->pagination['totalPage']   = max((int) ceil($this->total / $length), 1);
         $this->pagination['thisPage']    = isset($_GET['page']) ? ($_GET['page'] >= $this->pagination['totalPage'] ? $this->pagination['totalPage'] : $_GET['page']) : 1;
         $this->pagination['lastPage']    = $this->pagination['totalPage'];
         $this->pagination['nextPage']    = $this->pagination['totalPage'] > $this->pagination['thisPage'] ? $this->pagination['thisPage'] + 1 : $this->pagination['thisPage'];
         $this->pagination['currentPage'] = $this->pagination['thisPage'] > 1 ? $this->pagination['thisPage'] - 1 : $this->pagination['thisPage'];
         $this->getPaginations($length, $this->pagination['thisPage']);
-
         return clone $this;
     }
     /**
@@ -164,7 +163,6 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
     {
         $this->data  = $this->getData();
         $this->total = sizeof($this->data);
-
     }
 
     /**
@@ -181,7 +179,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
                 break;
             }
         }
-        throw new LazerException('No data found with ID: ' . $id);
+        return null;
     }
 
     /**
@@ -282,7 +280,6 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
                 call_user_func(array($this, $func . 'Pending'));
             }
         }
-
         //clear pending values after executed query
         $this->clearQuery();
     }
@@ -854,8 +851,12 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
             $data             = $this->getData();
             $this->currentId  = $id;
             $this->currentKey = $this->getRowKey($id);
-            foreach ($data[$this->currentKey] as $field => $value) {
-                $this->set->{$field} = $value;
+            if ($this->currentKey) {
+                foreach ($data[$this->currentKey] as $field => $value) {
+                    $this->set->{$field} = $value;
+                }
+            } else {
+                return null;
             }
         } else {
             $this->limit(1)->findAll();
@@ -879,7 +880,6 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
     {
         $this->pending();
         $this->data = $this->resetKeys ? array_values($this->data) : $this->data;
-
         return clone $this;
     }
 

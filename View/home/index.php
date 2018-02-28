@@ -6,8 +6,8 @@
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
         <div class="site-heading">
-          <h1>CDLN Blog</h1>
-          <span class="subheading">chia sẽ thông tin công nghệ</span>
+          <h1><?php echo isset($this->compact('category')->name) ? $this->compact('category')->name : 'CDLN Blog' ?></h1>
+          <span class="subheading"><?php echo isset($this->compact('category')->name) ? $this->compact('category')->name : 'chia sẽ thông tin công nghệ' ?></span>
         </div>
       </div>
     </div>
@@ -50,14 +50,8 @@
       </div>
     </div>
     <!-- end block 1 -->
-    <div class="col-lg-4 col-md-12 mx-auto">
-      <div class="list-group">
-            <a href="#" class="list-group-item active center">Bài được xem nhiều</a>
-            <?php foreach ($this->compact('articlehot') as $articlehot) {?>
-            <a href="?active=articledetail&id=<?php echo $articlehot->id; ?>" class="list-group-item" data-toggle="tooltip" data-placement="right" title="<?php echo $articlehot->title; ?>"> <?php echo Helper\Helper::shorten_string($articlehot->title, 5); ?> </a>
-            <?php }?>
-          </div>
-    </div>
+    <?php include 'View/home/layout/include/menu_right.php';?>
+
   </div>
 
 </div>

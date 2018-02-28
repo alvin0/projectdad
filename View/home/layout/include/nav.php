@@ -11,9 +11,20 @@
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Danh mục</a>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Separated link</a>
+                  <?php
+
+use Lazer\Classes\Database as DB;
+
+$category_articles = DB::table('category_articles')->findAll();
+
+foreach ($category_articles as $key => $item) {
+    ?>
+                  <a class="dropdown-item" href="?active=category&id=<?php echo $item->id ?>"><?php echo $item->name ?></a>
+                <div class="dropdown-divider"></div>
+<?php
+}
+
+?>
                 </div>
             </li>
             <li class="nav-item">
@@ -29,3 +40,4 @@
         </div>
       </div>
     </nav>
+
