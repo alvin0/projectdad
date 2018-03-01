@@ -5,7 +5,7 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <link rel="shortcut icon" href="View/home/style/favicon.png">
     <link rel="stylesheet" href="View/admin/styleadmin/css/bootstrap.min.css">
     <link rel="stylesheet" href="View/admin/styleadmin/css/mycss.css">
     <link rel="stylesheet" href="View/admin/styleadmin/css/fontawesome.min.css">
