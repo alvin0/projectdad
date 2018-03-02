@@ -862,6 +862,9 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
         } else {
             $this->limit(1)->findAll();
             $data = $this->data;
+            if (empty($data)) {
+                return null;
+            }
             if (count($data)) {
                 foreach ($data[0] as $field => $value) {
                     $this->set->{$field} = $value;

@@ -2,6 +2,7 @@
 namespace Middleware;
 
 use Core\Auth as Auth;
+use Core\Route as Route;
 
 /**
  *UserMiddleware
@@ -14,10 +15,11 @@ class AdminMiddleware
 
     public function boot()
     {
+        // $this->Logout();
+        // dd($_SESSION);
         $Auth = new Auth;
         if (!$Auth->CheckAuth($this->nameSession)) {
-            echo "Login Off";
-            die;
+            return Route::callRouteUrl('loginAdmin');
         }
 
     }
@@ -36,9 +38,9 @@ class AdminMiddleware
                 'password' => $field2, // check password match with fied 1
             ]];
         $Auth = new Auth;
-        $Auth->checkMiddlewareData($this->middleware);
+        return $Auth->checkMiddlewareData($this->middleware);
         // Auth::($this->middleware);
-        return false;
+        // return false;
     }
 
     public function CheckRule()
@@ -48,10 +50,8 @@ class AdminMiddleware
 
     public function Login($email, $password)
     {
-        // $email    = 'admin@alvinframework.com';
-        // $password = 'admin';
-        $data = $this->CreateAndSaveMiddleware($this->nameSession, $email, $password);
-        return true;
+        return $data = $this->CreateAndSaveMiddleware($this->nameSession, $email, $password);
+
     }
 
     public function Logout()

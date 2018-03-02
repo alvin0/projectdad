@@ -27,13 +27,17 @@ class Auth
                     $user = $user->where($key, '=', $value);
                 }
                 $user = $user->find();
-                if (Bcrypt::checkPassword($passwordcheck, $user->password)) {
-                    $this->dataAuth = $user;
-                    $this->CreateSession();
-                    return true;
-                } else {
-                    return false;
+                if ($user) {
+                    if (Bcrypt::checkPassword($passwordcheck, $user->password)) {
+                        $this->dataAuth = $user;
+                        $this->CreateSession();
+                        return true;
+                        die;
+                    } else {
+                        return false;
+                    }
                 }
+                return false;
             }
         } else {
             echo "Data of middleware is Array!";
@@ -49,7 +53,8 @@ class Auth
             'timestart' => $_SERVER['REQUEST_TIME'],
             'data'      => $this->dataAuth,
         ];
-        return $_SESSION[$this->nameSession];
+
+        return true;
     }
 
     public function EndAuth($name)

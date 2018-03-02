@@ -1,8 +1,10 @@
 <?php
 $route = [
-    'index'         => ['use' => 'Controller@index'], // this is route default when load
-    'category'      => ['use' => 'Controller@categoryArticle'],
-    'admin'         => [
+    'index'          => ['use' => 'Controller@index'], // this is route default when load
+    'category'       => ['use' => 'Controller@categoryArticle'],
+    'loginAdmin'     => ['use' => 'Admin\UserController@getlogin'],
+    'postLoginAdmin' => ['use' => 'Admin\UserController@postLogin'],
+    'admin'          => [
         'middleware' => ['use' => 'AdminMiddleware'],
         'group'      => [
             'home'                   => ['use' => 'Admin\ArticleController@getlist'],
@@ -22,6 +24,6 @@ $route = [
             //about
             'about'                  => ['use' => 'Admin\AboutController@index'],
         ]],
-    'articledetail' => ['use' => 'User\ArticleController@getDetails'],
+    'articledetail'  => ['use' => 'User\ArticleController@getDetails'],
 
 ];

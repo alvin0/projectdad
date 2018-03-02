@@ -7,7 +7,11 @@
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown">
-                    <i class="fa fa-user"></i> Admin
+                    <i class="fa fa-user"></i> <?php
+use Middleware\AdminMiddleware as Middleware;
+$auth = new Middleware();
+echo $auth->getData()->name;
+?>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="#">Profile</a>

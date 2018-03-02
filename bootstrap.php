@@ -21,6 +21,7 @@ include_once "Model/CreateModels.php";
 include_once "Model/RelationsModel.php";
 include_once "Model/DBStart.php";
 include_once "Helper/helper.php";
+include_once "Middleware/AdminMiddleware.php";
 
 /*=====  End of include core and aplication     ======*/
 include_once "Config/function.php";

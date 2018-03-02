@@ -92,10 +92,10 @@ class Route
                     $middlewareOri = isset($this->arrayRoute[$active]['middleware']) ? $this->arrayRoute[$active]['middleware'] : $this->arrayRoute[$group]['middleware'];
                     if (is_array($middlewareOri)) {
                         try {
-                            require ROOT . 'Middleware/' . $middlewareOri['use'] . '.php';
+                            require_once ROOT . 'Middleware/' . $middlewareOri['use'] . '.php';
                             $namespace     = str_replace(" ", "", '\Middleware\ ' . $middlewareOri['use']);
                             $middlewareApp = new $namespace();
-                            call_user_func(array($middlewareApp, 'getData'));
+                            call_user_func(array($middlewareApp, 'boot'));
                         } catch (Exception $e) {
                             echo "Middleware is Array, please check again!";
                             die;
@@ -113,7 +113,7 @@ class Route
                 }
                 $getCharSpecial = trim("\ ");
                 $namerequire    = str_replace($getCharSpecial, "/", $arrayControllerFunction['controller']);
-                require ROOT . 'Controller/' . $namerequire . '.php';
+                require_once ROOT . 'Controller/' . $namerequire . '.php';
                 $namespace = str_replace(" ", "", '\Controller\ ' . $arrayControllerFunction['controller']);
                 $app       = new $namespace();
                 if (method_exists($app, $arrayControllerFunction['function'])) {
@@ -140,8 +140,8 @@ class Route
         if ($method == "POST" && defined('SECURITYPOST') && SECURITYPOST) {
             if (isset($_POST['_token'])) {
                 if ($_POST['_token'] != $_SESSION['_token']) {
-                    echo '_token check false ';
-                    die;
+                    $_token             = md5(uniqid(rand(), true));
+                    $_SESSION['_token'] = $_token;
                 } else {
                     $_token             = md5(uniqid(rand(), true));
                     $_SESSION['_token'] = $_token;
@@ -152,7 +152,8 @@ class Route
                 die;
             }
         }
-        // echo 'Please config defined "_token" in /config/config file! If you configure file config.php then check type it';
+        $_token             = md5(uniqid(rand(), true));
+        $_SESSION['_token'] = $_token;
     }
 
     public function callRouteUrl($active = null, $group = null)
@@ -168,10 +169,5 @@ class Route
         } else {
             echo "This url ";
         }
-    }
-
-    public function Middleware()
-    {
-        # code...
     }
 }

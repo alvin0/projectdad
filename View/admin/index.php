@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="View/admin/styleadmin/css/mycss.css">
     <link rel="stylesheet" href="View/admin/styleadmin/css/fontawesome.min.css">
     <link rel="stylesheet" href="View/admin/styleadmin/css/bsadmin.css">
+    <link rel="shortcut icon" href="View/home/style/favicon.png">
+
 <?php print $this->block('script');?>
 
 </head>
