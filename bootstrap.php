@@ -15,6 +15,7 @@ error_reporting(E_ALL);
 include_once "Config/config.php";
 include_once "Core/Route.php";
 include_once "Core/View.php";
+include_once "Core/Auth.php";
 include_once "Core/Functions/Bcrypt.php";
 include_once "Model/CreateModels.php";
 include_once "Model/RelationsModel.php";

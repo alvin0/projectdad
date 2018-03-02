@@ -57,12 +57,12 @@
 	<div class="form-group row">
 	  <label for="example-tel-input" class="col-2 col-form-label">Content ( Nội dung chi tiết )</label>
 	  <div class="col-10">
-	    <textarea name="content" id="content"><?php echo isset($this->compact('article')->content) ? $this->compact('article')->content : '' ?></textarea>
+	    <textarea name="content" id="content" class="content"><?php echo isset($this->compact('article')->content) ? $this->compact('article')->content : '' ?></textarea>
 	    <p class="font-italic"> *When you enter it automatic expand ( Khi bạn nhập liệu nó sẽ tự động mở rộng ).</p>
-	    <p class="font-italic"> ** dùng thẻ img để chèn hình online vào bài viết : <br>
-	    Exemple : <code> &lt;img src=" link image online "/&gt; </code></p>
-	    <p>Nếu dùng ảnh đã tải lên từ trước bằng file manger thì ghi link theo dạng /storage/(đường dẫn file)</p>
-	    Exemple : <code> &lt;img src="storage/thumucneuco/hinhanhvidu.jpg"/&gt; </code></p>
+	    <p class="font-italic"> ** Chèn hình ảnh vào bài viết (icon gần icon "?" trên thanh công cụ nhập liệu) : <br>
+	     	<p>Nếu dùng ảnh trên mạng thì chỉ cần copy link ảnh vào là nó tự nhận</p>
+	     	<p>Có thể dùng ảnh tự upload lên</p>
+	     </p>
 
 	  </div>
 	</div>
@@ -84,9 +84,9 @@
 <?php $this->end('content');?>
 
 <?php $this->start();?>
-<script src="https://cdn.ckeditor.com/ckeditor5/1.0.0-alpha.2/classic/ckeditor.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<script src="View/admin/styleadmin/js/ckeditor/ckeditor.js"/></script>
 <script>
 
 $(document).ready(function() {
@@ -112,12 +112,7 @@ function readURL(input) {
   }
 }
 
-ClassicEditor
-    .create( document.querySelector( '#content') )
-    .catch( error => {
-        console.error( error );
-    } );
-
+CKEDITOR.replace( 'content' );
 </script>
 <?php $this->end('script');?>
 

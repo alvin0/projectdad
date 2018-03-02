@@ -3,7 +3,8 @@ $route = [
     'index'         => ['use' => 'Controller@index'], // this is route default when load
     'category'      => ['use' => 'Controller@categoryArticle'],
     'admin'         => [
-        'group' => [
+        'middleware' => ['use' => 'AdminMiddleware'],
+        'group'      => [
             'home'                   => ['use' => 'Admin\ArticleController@getlist'],
             //article
             'articlelist'            => ['use' => 'Admin\ArticleController@getlist'],
@@ -20,7 +21,6 @@ $route = [
 
             //about
             'about'                  => ['use' => 'Admin\AboutController@index'],
-
         ]],
     'articledetail' => ['use' => 'User\ArticleController@getDetails'],
 

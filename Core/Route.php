@@ -88,6 +88,24 @@ class Route
         if (isset($this->arrayRoute[$active]) || isset($this->arrayRoute[$group]['group'][$active])) {
             $parameter = $this->checkGetParam($_GET) ? $this->checkGetParam($_GET) : null;
             if ($active != null) {
+                if (isset($this->arrayRoute[$active]['middleware']) || isset($this->arrayRoute[$group]['middleware'])) {
+                    $middlewareOri = isset($this->arrayRoute[$active]['middleware']) ? $this->arrayRoute[$active]['middleware'] : $this->arrayRoute[$group]['middleware'];
+                    if (is_array($middlewareOri)) {
+                        try {
+                            require ROOT . 'Middleware/' . $middlewareOri['use'] . '.php';
+                            $namespace     = str_replace(" ", "", '\Middleware\ ' . $middlewareOri['use']);
+                            $middlewareApp = new $namespace();
+                            call_user_func(array($middlewareApp, 'getData'));
+                        } catch (Exception $e) {
+                            echo "Middleware is Array, please check again!";
+                            die;
+
+                        }
+                    } else {
+                        echo "Middleware is Array, please check again!";
+                        die;
+                    }
+                }
                 if ($group) {
                     $arrayControllerFunction = $this->getNameSpaceAndController($this->arrayRoute[$group]['group'][$active]["use"]);
                 } else {
@@ -150,5 +168,10 @@ class Route
         } else {
             echo "This url ";
         }
+    }
+
+    public function Middleware()
+    {
+        # code...
     }
 }
