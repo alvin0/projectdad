@@ -20,19 +20,16 @@ index.php?group=admin&active=home&param1=test&param2=test2
 
  */
 
-class Route
-{
+class Route {
     protected $arrayRoute;
     protected $defautlPatch;
-    public function __construct()
-    {
+    public function __construct() {
         include ROOT . 'route.php';
         $this->arrayRoute = $route;
         $this->setdefaultPatch();
     }
 
-    public function setdefaultPatch()
-    {
+    public function setdefaultPatch() {
 
         if (!defined('DefaultRoute') || !file_exists(ROOT . '/View/' . DefaultRoute)) {
             echo 'Please config defined "DefaultRoute" in /config/config file! If you configure file config.php then check path it does not exist.';
@@ -42,8 +39,7 @@ class Route
         }
     }
 
-    public function checkGetParam($get)
-    {
+    public function checkGetParam($get) {
         unset($get['active']);
         unset($get['group']);
         unset($get['page']);
@@ -53,8 +49,7 @@ class Route
         return false;
     }
 
-    public function getNameSpaceAndController($use)
-    {
+    public function getNameSpaceAndController($use) {
         $explodeUse = explode("@", $use);
         if (isset($explodeUse[0])) {
             $getController = $explodeUse[0];
@@ -70,8 +65,7 @@ class Route
 
     }
 
-    public function route()
-    {
+    public function route() {
         $this->checkSecurityFormPost();
         $active = isset($this->arrayRoute['index']) ? 'index' : null;
         $group  = isset($_GET['group']) ? $_GET['group'] : null;
@@ -81,10 +75,14 @@ class Route
             } else {
                 $active = $_GET['active'];
             }
+        } else {
+            if (!isset($_GET['page'])) {
+                if (!empty($_GET)) {
+                    return include View . $this->defautlPatch;
+                }
+            }
         }
-        //  else {
-        //     return include View . $this->defautlPatch;
-        // }
+
         if (isset($this->arrayRoute[$active]) || isset($this->arrayRoute[$group]['group'][$active])) {
             $parameter = $this->checkGetParam($_GET) ? $this->checkGetParam($_GET) : null;
             if ($active != null) {
@@ -134,8 +132,7 @@ class Route
     }
 
     // $previous = $_SERVER['HTTP_REFERER'];
-    public function checkSecurityFormPost()
-    {
+    public function checkSecurityFormPost() {
         $method = $_SERVER['REQUEST_METHOD'];
         if ($method == "POST" && defined('SECURITYPOST') && SECURITYPOST) {
             if (isset($_POST['_token'])) {
@@ -156,16 +153,24 @@ class Route
         $_SESSION['_token'] = $_token;
     }
 
-    public function callRouteUrl($active = null, $group = null)
-    {
+    public function callRouteUrl($active = null, $group = null, $compact = null) {
         if ($active) {
             if ($group) {
                 $url = '?group=' . $group . '&active=' . $active;
             } else {
                 $url = '?active=' . $active;
             }
+            if ($compact) {
+                if (is_array($compact)) {
+                    foreach ($compact as $key => $value) {
+                        $url = $url . "&" . $key . "=" . $value;
+                    }
+                } else {
+                    echo "Data compact is array";
+                    die;
+                }
+            }
             header("Location: $url");
-
         } else {
             echo "This url ";
         }

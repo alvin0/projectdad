@@ -58,7 +58,7 @@ class AdminMiddleware
     {
         $Auth = new Auth;
         $Auth->EndAuth($this->nameSession);
-        return "Logout";
+        return true;
     }
 
     public function getData()

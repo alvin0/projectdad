@@ -83,14 +83,17 @@
 </form>
 <?php $this->end('content');?>
 
-<?php $this->start();?>
+<?php $this->start()?>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
-<script src="View/admin/styleadmin/js/ckeditor/ckeditor.js"/></script>
-<script>
+<?php $this->end('head')?>
 
+<?php $this->start();?>
+<script src="View/admin/styleadmin/js/ckeditor/ckeditor.js"/></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<script>
 $(document).ready(function() {
     $('.select2-single').select2();
+CKEDITOR.replace( 'content' );
 });
 
 $('.custom-file-inputs').on('change',function(){
@@ -100,21 +103,18 @@ $('.custom-file-inputs').on('change',function(){
 })
 
 function readURL(input) {
-
   if (input.files && input.files[0]) {
     var reader = new FileReader();
 
     reader.onload = function(e) {
       $('#imagepreview').attr('src', e.target.result);
     }
-
     reader.readAsDataURL(input.files[0]);
   }
 }
 
-CKEDITOR.replace( 'content' );
 </script>
-<?php $this->end('script');?>
+<?php $this->end('script')?>
 
 <!-- Extend the layout template -->
 <?php $this->extend('admin/index');?>

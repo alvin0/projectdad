@@ -11,8 +11,10 @@
     <link rel="stylesheet" href="View/admin/styleadmin/css/fontawesome.min.css">
     <link rel="stylesheet" href="View/admin/styleadmin/css/bsadmin.css">
     <link rel="shortcut icon" href="View/home/style/favicon.png">
+    <script src="View/admin/styleadmin/js/jquery.min.js"></script>
 
-<?php print $this->block('script');?>
+    <?php print $this->block('head');?>
+
 
 </head>
 <body>
@@ -41,12 +43,12 @@
 
 </div>
 
-<script src="View/admin/styleadmin/js/jquery.min.js"></script>
+
 <script src="View/admin/styleadmin/js/popper.min.js"></script>
 <script src="View/admin/styleadmin/js/bootstrap.min.js"></script>
 <script src="View/admin/styleadmin/js/bsadmin.js"></script>
-<script src="View/admin/styleadmin/js/myscript.js"></script>
 <?php print $this->block('script');?>
+<!-- <script src="View/admin/styleadmin/js/myscript.js"></script> -->
 
 </body>
 </html>

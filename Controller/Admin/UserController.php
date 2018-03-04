@@ -29,4 +29,11 @@ class UserController
         $view  = new View('admin/login', ['error' => $error]);
         print $view;
     }
+    public function Logout()
+    {
+        $auth = new Middleware();
+        if ($auth->Logout()) {
+            Route::callRouteUrl('index');
+        }
+    }
 }

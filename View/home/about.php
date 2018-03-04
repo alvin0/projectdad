@@ -6,8 +6,8 @@
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
         <div class="site-heading">
-          <h1><?php echo $this->compact('article')->title; ?></h1>
-          <span class="subheading"><?php echo Helper\Helper::shorten_string($this->compact('article')->snippet, 20) ?></span>
+          <h1><?php echo $this->compact('about')->title; ?></h1>
+          <span class="subheading"><?php echo Helper\Helper::shorten_string($this->compact('about')->snippet, 20) ?></span>
         </div>
       </div>
     </div>
@@ -21,8 +21,7 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-          <?php echo nl2br($this->compact('article')->content); ?>
-        <p>Thời gian tạo bài viết : <?php echo $this->compact('article')->created_at; ?> </p>
+          <?php echo nl2br($this->compact('about')->content); ?>
         </div>
       </div>
     </div>

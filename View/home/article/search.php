@@ -6,8 +6,8 @@
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
         <div class="site-heading">
-          <h1>CDLN Blog</h1>
-          <span class="subheading">chia sẽ thông tin công nghệ</span>
+          <h1>Tìm kiếm</h1>
+          <span class="subheading"><?php echo isset($_GET['keyword']) ? $_GET['keyword'] : '' ?></span>
         </div>
       </div>
     </div>
@@ -21,7 +21,11 @@
     <!-- block 1 -->
     <div class="col-lg-8 col-md-10 mx-auto">
       <!-- content artisan -->
-      <?php foreach ($this->compact('article') as $item) {?>
+      <?php
+if (sizeof($this->compact('article')) == 0) {
+    echo '<h2 class="post-title">Không tìm thấy kết quả nào, hãy thử tìm kiếm khác!</h2>';
+}
+foreach ($this->compact('article') as $item) {?>
       <div class="post-preview">
         <a href="?active=articledetail&id=<?php echo $item->id; ?>">
           <h2 class="post-title">
@@ -38,13 +42,12 @@
       <hr>
       <?php }?>
       <!-- content artisan -->
-
       <!-- Pager -->
       <div class="clearfix">
       <?php if ($this->compact('page')['thisPage'] != $this->compact('page')['lastPage']) {?>
-        <a class="btn btn-primary float-right" href="?page=<?php echo $this->compact('page')['nextPage'] ?>">Trang tiếp theo &rarr;</a>
+        <a class="btn btn-primary float-right" href="?active=search&page=<?php echo $this->compact('page')['nextPage'] ?><?php echo isset($_GET['keyword']) ? '&keyword=' . $_GET['keyword'] : '' ?>">Trang tiếp theo &rarr;</a>
       <?php }if ($this->compact('page')['thisPage'] > 1) {?>
-        <a class="btn btn-primary float-left" href="?page=<?php echo $this->compact('page')['currentPage'] ?>">&larr; Quay lại </a>
+        <a class="btn btn-primary float-left" href="?active=search&page=<?php echo $this->compact('page')['currentPage'] ?><?php echo isset($_GET['keyword']) ? '&keyword=' . $_GET['keyword'] : ' ' ?>">&larr; Quay lại </a>
 
         <?php }?>
       </div>

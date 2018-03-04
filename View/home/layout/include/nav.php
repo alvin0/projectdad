@@ -28,10 +28,10 @@ foreach ($category_articles as $key => $item) {
                 </div>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="about.html">Giới Thiệu</a>
+              <a class="nav-link" href="?active=about">Giới Thiệu</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="post.html">Góp ý</a>
+              <a class="nav-link" href="?active=contact">Góp ý</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="index.php?active=alvin">Tác giả</a>

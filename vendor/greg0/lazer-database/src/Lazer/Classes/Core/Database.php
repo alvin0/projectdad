@@ -20,8 +20,7 @@ use Lazer\Classes\Relation;
  * @license http://opensource.org/licenses/MIT The MIT License
  * @link https://github.com/Greg0/Lazer-Database GitHub Repository
  */
-abstract class Core_Database implements \IteratorAggregate, \Countable
-{
+abstract class Core_Database implements \IteratorAggregate, \Countable {
 
     /**
      * Contain returned data from file as object or array of objects
@@ -82,8 +81,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
     /**
      * setPagination create pagination
      */
-    public function setPagination()
-    {
+    public function setPagination() {
         $this->pagination = array(
             'totalPage'   => 1,
             'nextPage'    => 1,
@@ -97,11 +95,10 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * @param  [integer] $length [length array data show]
      * @return [data]         [data show]
      */
-    public function pagination($length)
-    {
+    public function pagination($length) {
         $this->pending();
         $this->data                      = $this->resetKeys ? array_values($this->data) : null;
-        $this->pagination['totalPage']   = max((int) ceil($this->total / $length), 1);
+        $this->pagination['totalPage']   = max((int) ceil(sizeof($this->data) / $length), 1);
         $this->pagination['thisPage']    = isset($_GET['page']) ? ($_GET['page'] >= $this->pagination['totalPage'] ? $this->pagination['totalPage'] : $_GET['page']) : 1;
         $this->pagination['lastPage']    = $this->pagination['totalPage'];
         $this->pagination['nextPage']    = $this->pagination['totalPage'] > $this->pagination['thisPage'] ? $this->pagination['thisPage'] + 1 : $this->pagination['thisPage'];
@@ -115,14 +112,12 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * @param  [integer] $page   [page show]
      * @return [data]         [data show]
      */
-    public function getPaginations($length, $page)
-    {
+    public function getPaginations($length, $page) {
         $start      = $page != 1 ? ($page - 1) * $length : 0;
         $this->data = array_slice($this->data, $start, $length);
     }
 
-    public function getPage()
-    {
+    public function getPage() {
         return $this->pagination;
     }
 
@@ -132,8 +127,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * @return \Lazer\Classes\Database
      * @throws LazerException If there's problems with load file
      */
-    public static function table($name)
-    {
+    public static function table($name) {
         Helpers\Validate::table($name)->exists();
 
         $self       = new Database;
@@ -151,16 +145,14 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * @uses Lazer\Classes\Helpers\Data::get() to get data from file
      * @return array
      */
-    protected function getData()
-    {
+    protected function getData() {
         return Helpers\Data::table($this->name)->get();
     }
 
     /**
      * Setting data to Database::$data
      */
-    protected function setData()
-    {
+    protected function setData() {
         $this->data  = $this->getData();
         $this->total = sizeof($this->data);
     }
@@ -171,8 +163,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * @return integer Row key
      * @throws LazerException If there's no data with that ID
      */
-    protected function getRowKey($id)
-    {
+    protected function getRowKey($id) {
         foreach ($this->getData() as $key => $data) {
             if ($data->id == $id) {
                 return $key;
@@ -185,8 +176,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
     /**
      * Set NULL for currentId and currentKey
      */
-    protected function clearKeyInfo()
-    {
+    protected function clearKeyInfo() {
         $this->currentId = $this->currentKey = null;
     }
 
@@ -194,8 +184,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * Setting fields with default values
      * @uses Lazer\Classes\Helpers\Validate::isNumeric() to check if type of field is numeric
      */
-    protected function setFields()
-    {
+    protected function setFields() {
         $this->set = new \stdClass();
         $schema    = $this->schema();
 
@@ -211,8 +200,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
     /**
      * Set pending functions in right order with default values (Empty).
      */
-    protected function setPending()
-    {
+    protected function setPending() {
         $this->pending = array(
             'where'   => array(),
             'orderBy' => array(),
@@ -225,8 +213,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
     /**
      * Clear info about previous queries
      */
-    protected function clearQuery()
-    {
+    protected function clearQuery() {
         $this->setPending();
         $this->clearKeyInfo();
     }
@@ -238,8 +225,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * @param string $name Field name
      * @param mixed $value Field value
      */
-    public function __set($name, $value)
-    {
+    public function __set($name, $value) {
         if (Helpers\Validate::table($this->name)->field($name) && Helpers\Validate::table($this->name)->type($name, $value)) {
             $this->set->{$name} = $value;
         }
@@ -250,8 +236,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * @param string $name Field name
      * @return mixed Field value
      */
-    public function __get($name)
-    {
+    public function __get($name) {
         if (isset($this->set->{$name})) {
             return $this->set->{$name};
         }
@@ -264,16 +249,14 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * @param string $name Field name
      * @return boolean True if the field exists, false otherwise
      */
-    public function __isset($name)
-    {
+    public function __isset($name) {
         return isset($this->set->{$name});
     }
 
     /**
      * Execute pending functions
      */
-    protected function pending()
-    {
+    protected function pending() {
         $this->setData();
         foreach ($this->pending as $func => $args) {
             if (!empty($args)) {
@@ -314,8 +297,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * @param array $fields Field configuration
      * @throws LazerException If table exist
      */
-    public static function create($name, array $fields)
-    {
+    public static function create($name, array $fields) {
         $fields = Helpers\Validate::arrToLower($fields);
 
         if (Helpers\Data::table($name)->exists() && Helpers\Config::table($name)->exists()) {
@@ -346,8 +328,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * @param string $name Table name
      * @return boolean|LazerException
      */
-    public static function remove($name)
-    {
+    public static function remove($name) {
         if (Helpers\Data::table($name)->remove() && Helpers\Config::table($name)->remove()) {
             return true;
         }
@@ -358,8 +339,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * @param string $column
      * @return \Lazer\Classes\Core_Database
      */
-    public function groupBy($column)
-    {
+    public function groupBy($column) {
         if (Helpers\Validate::table($this->name)->field($column)) {
             $this->resetKeys             = 0;
             $this->pending[__FUNCTION__] = $column;
@@ -371,8 +351,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
     /**
      * Grouping array pending method
      */
-    protected function groupByPending()
-    {
+    protected function groupByPending() {
         $column = $this->pending['groupBy'];
 
         $grouped = array();
@@ -388,8 +367,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * @param string $table relations separated by :
      * @return \Lazer\Classes\Core_Database
      */
-    public function with($table)
-    {
+    public function with($table) {
         $this->pending['with'][] = explode(':', $table);
         return $this;
     }
@@ -397,8 +375,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
     /**
      * Pending function for with(), joining other tables to current
      */
-    protected function withPending()
-    {
+    protected function withPending() {
         $joins = $this->pending['with'];
         foreach ($joins as $join) {
             $local   = (count($join) > 1) ? array_slice($join, -2, 1)[0] : $this->name;
@@ -420,8 +397,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * @param string $direction ASC|DESC
      * @return \Lazer\Classes\Core_Database
      */
-    public function orderBy($key, $direction = 'ASC')
-    {
+    public function orderBy($key, $direction = 'ASC') {
         if (Helpers\Validate::table($this->name)->field($key)) {
             $directions = array(
                 'ASC'  => SORT_ASC,
@@ -438,8 +414,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * @
      * @link http://blog.amnuts.com/2011/04/08/sorting-an-array-of-objects-by-one-or-more-object-property/ It's not mine algorithm
      */
-    protected function orderByPending()
-    {
+    protected function orderByPending() {
         $properties = $this->pending['orderBy'];
         uasort($this->data, function ($a, $b) use ($properties) {
             foreach ($properties as $column => $direction) {
@@ -481,8 +456,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * @param mixed $value Field value
      * @return \Lazer\Classes\Core_Database
      */
-    public function where($field, $op, $value)
-    {
+    public function where($field, $op, $value) {
         $this->pending['where'][] = array(
             'type'  => 'and',
             'field' => $field,
@@ -500,8 +474,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * @param mixed $value Field value
      * @return \Lazer\Classes\Core_Database
      */
-    public function andWhere($field, $op, $value)
-    {
+    public function andWhere($field, $op, $value) {
         $this->where($field, $op, $value);
 
         return $this;
@@ -514,8 +487,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * @param mixed $value Field value
      * @return \Lazer\Classes\Core_Database
      */
-    public function orWhere($field, $op, $value)
-    {
+    public function orWhere($field, $op, $value) {
         $this->pending['where'][] = array(
             'type'  => 'or',
             'field' => $field,
@@ -531,8 +503,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * @param object $row
      * @return boolean
      */
-    protected function wherePending()
-    {
+    protected function wherePending() {
         $operator = array(
             '='   => '==',
             '!='  => '!=',
@@ -591,8 +562,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * @param string $value Field that will be the value
      * @return array
      */
-    public function asArray($key = null, $value = null)
-    {
+    public function asArray($key = null, $value = null) {
         if (!is_null($key)) {
             Helpers\Validate::table($this->name)->field($key);
         }
@@ -647,8 +617,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * @param integer $offset Offset number
      * @return \Lazer\Classes\Core_Database
      */
-    public function limit($number, $offset = 0)
-    {
+    public function limit($number, $offset = 0) {
         $this->pending['limit'] = array(
             'offset' => $offset,
             'number' => $number,
@@ -660,8 +629,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
     /**
      * Pending function for limit()
      */
-    protected function limitPending()
-    {
+    protected function limitPending() {
         $offset     = $this->pending['limit']['offset'];
         $num        = $this->pending['limit']['number'];
         $this->data = array_slice($this->data, $offset, $num);
@@ -671,8 +639,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * Add new fields to table, array schema like in create() function
      * @param array $fields Associative array
      */
-    public function addFields(array $fields)
-    {
+    public function addFields(array $fields) {
         $fields = Helpers\Validate::arrToLower($fields);
 
         Helpers\Validate::types(array_values($fields));
@@ -705,8 +672,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * Delete fields from array
      * @param array $fields Indexed array
      */
-    public function deleteFields(array $fields)
-    {
+    public function deleteFields(array $fields) {
         $fields = Helpers\Validate::arrToLower($fields);
 
         Helpers\Validate::table($this->name)->fields($fields);
@@ -729,8 +695,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * Returns table name
      * @return string table name
      */
-    public function name()
-    {
+    public function name() {
         return $this->name;
     }
 
@@ -738,8 +703,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * Returning object with config for table
      * @return object Config
      */
-    public function config()
-    {
+    public function config() {
         return Helpers\Config::table($this->name)->get();
     }
 
@@ -747,8 +711,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * Return array with names of fields
      * @return array Fields
      */
-    public function fields()
-    {
+    public function fields() {
         return Helpers\Config::table($this->name)->fields();
     }
 
@@ -756,8 +719,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * Returning assoc array with types of fields
      * @return array Fields type
      */
-    public function schema()
-    {
+    public function schema() {
         return Helpers\Config::table($this->name)->schema();
     }
 
@@ -765,8 +727,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * Returning assoc array with relationed tables
      * @return array Fields type
      */
-    public function relations($tableName = null)
-    {
+    public function relations($tableName = null) {
         return Helpers\Config::table($this->name)->relations($tableName, true);
     }
 
@@ -774,16 +735,14 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * Returning last ID from table
      * @return integer Last ID
      */
-    public function lastId()
-    {
+    public function lastId() {
         return Helpers\Config::table($this->name)->lastId();
     }
 
     /**
      * Saving inserted or updated data
      */
-    public function save()
-    {
+    public function save() {
         $data = $this->getData();
         if (!$this->currentId) {
             $config = $this->config();
@@ -807,8 +766,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * Deleting loaded data
      * @return boolean
      */
-    public function delete()
-    {
+    public function delete() {
         $data = $this->getData();
         if (isset($this->currentId)) {
             unset($data[$this->currentKey]);
@@ -826,8 +784,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * Return count in integer or array of integers (if grouped)
      * @return mixed
      */
-    public function count()
-    {
+    public function count() {
         if (!$this->resetKeys) {
             $count = array();
             foreach ($this->data as $group => $data) {
@@ -845,8 +802,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * @param integer $id Row ID
      * @return \Lazer\Classes\Core_Database
      */
-    public function find($id = null)
-    {
+    public function find($id = null) {
         if ($id !== null) {
             $data             = $this->getData();
             $this->currentId  = $id;
@@ -880,8 +836,7 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
     /**
      * Make data ready to read
      */
-    public function findAll()
-    {
+    public function findAll() {
         $this->pending();
         $this->data = $this->resetKeys ? array_values($this->data) : $this->data;
         return clone $this;
@@ -891,16 +846,14 @@ abstract class Core_Database implements \IteratorAggregate, \Countable
      * Iterator for Data
      * @return \ArrayIterator
      */
-    public function getIterator()
-    {
+    public function getIterator() {
         return new \ArrayIterator($this->data);
     }
 
     /**
      * Debug functions, prints whole query with values
      */
-    public function debug()
-    {
+    public function debug() {
         $print = "Lazer::table(" . $this->name . ")\n";
         foreach ($this->pending as $function => $values) {
             if (!empty($values)) {

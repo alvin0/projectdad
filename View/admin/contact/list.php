@@ -1,38 +1,36 @@
 <?php $this->start();?>
-<h1 class="display-5 mb-4">List Category Article ( Danh sách bài viết )</h1>
-<a href="?group=admin&active=categoryarticlenew"><h2 class="display-5 mb-4"><i class="fa fa-plus-square" style="font-size:48px;color:red"></i> Create ( Tạo mới )</h2></a>
+<h1 class="display-5 mb-4">List Contact ( Danh sách góp ý )</h1>
 <hr>
 <table class="table listDatatable table-striped table-bordered" cellspacing="0" width="100%">
     <thead>
         <tr>
             <th>Id</th>
-            <th>Title</th>
-            <th>Total Article</th>
-            <th>Tool</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Content(nội dung)</th>
+            <th>Created at (Ngày gửi)</th>
         </tr>
     </thead>
     <tfoot>
         <tr>
             <th>Id</th>
-            <th>Title</th>
-            <th>Total Article</th>
-            <th>Tool</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Content(nội dung)</th>
+            <th>Created at (Ngày gửi)</th>
         </tr>
     </tfoot>
     <tbody>
-        <?php foreach ($this->compact('category_articles') as $key => $items) {
-    $totalarticle[$key] = $items->Article->findAll()->count();
-    ?>
+        <?php foreach ($this->compact('contacts') as $item) {?>
         <tr>
-            <td><?php echo $items->id; ?></td>
-            <td><?php echo $items->name; ?></td>
-            <td><?php echo $totalarticle[$key]; ?></td>
-            <td><a href="?group=admin&active=articleupdate&id=<?php echo $items->id ?>">Update</a>
-              <?php if ($totalarticle[$key] < 1) {?>
-
-             <a data-target="#myModal" data-toggle="modal" data-id="<?php echo $items->id ?>" data-name="<?php echo $items->name ?>" class="MainNavText idDelete" id="MainNavHelp" href="#myModal"> | Delete</a>
-
-              <?php }?>
+            <td><?php echo $item->id; ?></td>
+            <td><?php echo $item->name; ?></td>
+            <td><?php echo $item->email; ?></td>
+            <td><?php echo $item->phone; ?></td>
+            <td data-toggle="tooltip" data-placement="bottom" title="<?php echo $item->content; ?>"><?php echo Helper\Helper::shorten_string($item->content, 20); ?></td>
+            <td><?php echo $item->created_at; ?></td>
         </tr>
         <?php }?>
     </tbody>
@@ -42,7 +40,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Xóa danh muc</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -52,10 +50,10 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <form action="?group=admin&active=categoryarticledelete" method="POST">
+        <form action="?group=admin&active=postarticledelete" method="POST">
             <input type="hidden" name="_token" value="<?php echo _token; ?>" />
-            <input type="hidden" name="idCategoryArticleDelete" id="idCategoryArticleDelete" value=""/>
-            <button type="submit" class="btn btn-primary">Ok</button>
+            <input type="hidden" name="idArticleDelete" id="idArticleDelete" value=""/>
+            <button type="submit" class="btn btn-primary">OK</button>
         </form>
       </div>
     </div>
@@ -72,7 +70,7 @@ $( ".idDelete" ).click(function() {
   var id = $(this).data('id');
   var title = $(this).data('name');
   $('.title').text(title);
-  $("#idCategoryArticleDelete").val(id);
+  $("#idArticleDelete").val(id);
 });
 $(document).ready(function() {
     $('.listDatatable').DataTable({
@@ -85,6 +83,7 @@ $(document).ready(function() {
 <?php $this->start()?>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
 <?php $this->end('head')?>
+
 
 <!-- Extend the layout template -->
 <?php $this->extend('admin/index');?>

@@ -13,8 +13,7 @@ namespace Lazer\Classes\Helpers;
  */
 class Config extends File {
 
-    public static function table($name)
-    {
+    public static function table($name) {
         $file       = new Config;
         $file->name = $name;
         $file->setType('config');
@@ -28,8 +27,7 @@ class Config extends File {
      * @param type $assoc
      * @return mixed
      */
-    public function getKey($field, $assoc = false)
-    {
+    public function getKey($field, $assoc = false) {
         return $assoc ? $this->get($assoc)[$field] : $this->get($assoc)->{$field};
     }
 
@@ -37,8 +35,7 @@ class Config extends File {
      * Return array with names of fields
      * @return array
      */
-    public function fields()
-    {
+    public function fields() {
         return array_keys($this->getKey('schema', true));
     }
 
@@ -48,22 +45,15 @@ class Config extends File {
      * @param boolean $assoc Object or associative array
      * @return array|object
      */
-    public function relations($tableName = null, $assoc = false)
-    {
-        if (is_array($tableName))
-        {
+    public function relations($tableName = null, $assoc = false) {
+        if (is_array($tableName)) {
             $relations = $this->getKey('relations', $assoc);
-            if ($assoc)
-            {
+            if ($assoc) {
                 return array_intersect_key($relations, array_flip($tableName));
-            }
-            else
-            {
+            } else {
                 return (object) array_intersect_key((array) $relations, array_flip($tableName));
             }
-        }
-        elseif ($tableName !== null)
-        {
+        } elseif ($tableName !== null) {
             return $assoc ? $this->getKey('relations', $assoc)[$tableName] : $this->getKey('relations', $assoc)->{$tableName};
         }
 
@@ -74,8 +64,7 @@ class Config extends File {
      * Returning assoc array with types of fields
      * @return array
      */
-    public function schema()
-    {
+    public function schema() {
         return $this->getKey('schema', true);
     }
 
@@ -84,8 +73,7 @@ class Config extends File {
      * @param string $name
      * @return integer
      */
-    public function lastId()
-    {
+    public function lastId() {
         return $this->getKey('last_id');
     }
 

@@ -6,8 +6,8 @@
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
         <div class="site-heading">
-          <h1><?php echo isset($this->compact('category')->name) ? $this->compact('category')->name : 'CDLN Blog' ?></h1>
-          <span class="subheading"><?php echo isset($this->compact('category')->name) ? $this->compact('category')->name : 'chia sẽ thông tin công nghệ' ?></span>
+          <h1><?php echo isset($this->compact('category_articles')->name) ? $this->compact('category_articles')->name : 'CDLN Blog' ?></h1>
+          <span class="subheading"><?php echo isset($this->compact('category_articles')->name) ? $this->compact('category_articles')->name : 'chia sẽ thông tin công nghệ' ?></span>
         </div>
       </div>
     </div>
@@ -42,9 +42,9 @@
       <!-- Pager -->
       <div class="clearfix">
       <?php if ($this->compact('page')['thisPage'] != $this->compact('page')['lastPage']) {?>
-        <a class="btn btn-primary float-right" href="?page=<?php echo $this->compact('page')['nextPage'] ?>">Trang tiếp theo &rarr;</a>
+        <a class="btn btn-primary float-right" href="<?php echo isset($this->compact('category_articles')->name) ? '?active=category&id=' . $this->compact('category_articles')->id . '&' : '?' ?>page=<?php echo $this->compact('page')['nextPage'] ?>">Trang tiếp theo &rarr;</a>
       <?php }if ($this->compact('page')['thisPage'] > 1) {?>
-        <a class="btn btn-primary float-left" href="?page=<?php echo $this->compact('page')['currentPage'] ?>">&larr; Quay lại </a>
+        <a class="btn btn-primary float-left" href=""<?php echo isset($this->compact('category_articles')->name) ? '?active=category&id=' . $this->compact('category_articles')->id . '&' : '?' ?>page=<?php echo $this->compact('page')['currentPage'] ?>">&larr; Quay lại </a>
 
         <?php }?>
       </div>

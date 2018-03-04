@@ -1,6 +1,10 @@
 <?php
 $route = [
     'index'          => ['use' => 'Controller@index'], // this is route default when load
+    'about'          => ['use' => 'Controller@about'], // this is route default when load
+    'contact'        => ['use' => 'Controller@getContact'], // this is route default when load
+    'postContact'    => ['use' => 'Controller@postContact'], // this is route default when load
+    'search'         => ['use' => 'Controller@search'], // this is route default when load
     'category'       => ['use' => 'Controller@categoryArticle'],
     'loginAdmin'     => ['use' => 'Admin\UserController@getlogin'],
     'postLoginAdmin' => ['use' => 'Admin\UserController@postLogin'],
@@ -23,6 +27,13 @@ $route = [
 
             //about
             'about'                  => ['use' => 'Admin\AboutController@index'],
+            'updateabout'            => ['use' => 'Admin\AboutController@postAbout'],
+
+            //contact
+            'contact'                => ['use' => 'Admin\ContactController@index'],
+
+            //user
+            'logout'                 => ['use' => 'Admin\UserController@Logout'],
         ]],
     'articledetail'  => ['use' => 'User\ArticleController@getDetails'],
 

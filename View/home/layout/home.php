@@ -23,6 +23,7 @@
     <!-- Custom styles for this template -->
     <link href="View/home/style/css/clean-blog.min.css" rel="stylesheet">
     <link href="View/home/style/css/mycss.css" rel="stylesheet">
+  <?php print $this->block('head');?>
 
   </head>
 

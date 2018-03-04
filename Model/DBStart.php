@@ -7,28 +7,25 @@ use Lazer\Classes\Database as DB;
 /**
  * DBStart
  */
-class DBStart
-{
+class DBStart {
 
-    public function boot()
-    {
-        // $this->User();
-        // $this->CategoryArticle();
-        // $this->Article();
+    public function boot() {
+        $this->User();
+        $this->CategoryArticle();
+        $this->Article();
+        $this->About();
     }
 
-    public function User()
-    {
+    public function User() {
         $user           = DB::table('users');
         $user->name     = 'admin';
-        $user->email    = 'admin@alvinframework.com';
+        $user->email    = 'admin@alvin.com';
         $user->password = Bcrypt::hashPassword('admin');
         $user->role     = 1;
         $user->save();
     }
 
-    public function CategoryArticle()
-    {
+    public function CategoryArticle() {
         $user       = DB::table('category_articles');
         $user->name = 'Tin tức';
         $user->save();
@@ -40,11 +37,10 @@ class DBStart
         $user->save();
     }
 
-    public function Article()
-    {
+    public function Article() {
         for ($i = 1; $i < 20; $i++) {
             $article                      = DB::table('article');
-            $article->category_article_id = 1;
+            $article->category_article_id = rand(1, 3);
             $article->title               = 'Data test ' . $i;
             $article->image_index         = 'null';
             $article->image_gallery       = 'null';
@@ -56,5 +52,16 @@ class DBStart
             $article->updated_at          = date('Y/m/d H:i:s');
             $article->save();
         }
+    }
+
+    public function About() {
+        $article             = DB::table('about');
+        $article->title      = 'CDLN';
+        $article->image      = 'View/home/img/about-bg.jpg';
+        $article->snippet    = 'Blog chia sẽ thông tin.';
+        $article->content    = 'Blog tạo ra nhầm chia sẽ thông tin và ý kiến cá nhân.';
+        $article->created_at = date('Y/m/d H:i:s');
+        $article->updated_at = date('Y/m/d H:i:s');
+        $article->save();
     }
 }

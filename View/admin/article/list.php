@@ -77,6 +77,11 @@ $( ".idDelete" ).click(function() {
   $('.title').text(title);
   $("#idArticleDelete").val(id);
 });
+$(document).ready(function() {
+    $('.listDatatable').DataTable({
+      "order": [[ 0, 'desc' ]]
+    });
+} );
 </script>
 <?php $this->end('script')?>
 
