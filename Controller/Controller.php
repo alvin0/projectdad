@@ -16,22 +16,26 @@ class Controller {
         $article           = DB::table('article')->where('category_article_id', '=', $id)->orderBy('created_at', 'desc')->with('category_articles')->pagination(6);
         $category_articles = DB::table('category_articles')->find($id);
         if ($category_articles) {
-            $page = $article->getPage();
-            $view = new View('home/index', ['article' => $article, 'page' => $page, 'category_articles' => $category_articles]);
+            $page        = $article->getPage();
+            $view        = new View('home/index', ['article' => $article, 'page' => $page, 'category_articles' => $category_articles]);
+            $view->title = $category_articles->name;
             return print $view;
         }
     }
     public function about() {
-        $about = DB::table('about')->find(1);
-        $view  = new View('home/about', ['about' => $about]);
+        $about       = DB::table('about')->find(1);
+        $view        = new View('home/about', ['about' => $about]);
+        $view->title = 'About';
         return print $view;
     }
 
     public function getContact($staus = null) {
         if ($staus) {
             $view = new View('home/contact', ['staus' => $staus]);
+        } else {
+            $view = new View('home/contact');
         }
-        $view = new View('home/contact');
+        $view->title = 'Contact';
         return print $view;
     }
 
@@ -47,8 +51,8 @@ class Controller {
         // if (isset($_GET['keyword']) && strlen(trim($_GET['keyword'])) > 0) {
         //     $view = new View('home/article/search', ['about' => $about], 'key' => $_GET['keyword']);
         // } else {
-        $view = new View('home/article/search', ['article' => $article, 'page' => $page]);
-        // }
+        $view        = new View('home/article/search', ['article' => $article, 'page' => $page]);
+        $view->title = 'Search';
         return print $view;
     }
 
