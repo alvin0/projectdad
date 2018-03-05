@@ -1,6 +1,7 @@
 <?php
 $route = [
     'index'          => ['use' => 'Controller@index'], // this is route default when load
+    'othernews'      => ['use' => 'Controller@otherNews'], // this is route default when load
     'about'          => ['use' => 'Controller@about'], // this is route default when load
     'contact'        => ['use' => 'Controller@getContact'], // this is route default when load
     'postContact'    => ['use' => 'Controller@postContact'], // this is route default when load
