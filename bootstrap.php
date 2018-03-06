@@ -25,7 +25,6 @@ include_once "Middleware/AdminMiddleware.php";
 
 /*=====  End of include core and aplication     ======*/
 include_once "Config/function.php";
-include_once "Config/simple_html_dom.php";
 
 // run File Model
 $rundatajson = new Model\CreateModels();
