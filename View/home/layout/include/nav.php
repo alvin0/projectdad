@@ -27,9 +27,9 @@ foreach ($category_articles as $key => $item) {
 ?>
                 </div>
             </li>
-            <li class="nav-item">
+           <!--  <li class="nav-item">
               <a class="nav-link" href="?active=othernews">Tin Khác</a>
-            </li>
+            </li> -->
             <li class="nav-item">
               <a class="nav-link" href="?active=about">Giới Thiệu</a>
             </li>
