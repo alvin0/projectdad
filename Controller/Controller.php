@@ -5,6 +5,10 @@ use Core\Route as Route;
 use Core\View as View;
 use Lazer\Classes\Database as DB;
 
+// use \GreenCape\Xml\Converter;
+
+// use Vyuldashev\XmlToArray\XmlToArray as XML;
+
 class Controller
 {
     public function index()
@@ -122,33 +126,9 @@ class Controller
 
     public function otherNews()
     {
-        $html = file_get_html("http://vnexpress.net");
-        // echo $html;
-        $tins = $html->find("section.container section.sidebar_home_1 article.list_news");
-        // echo count($tins);
-        foreach ($tins as $t) {
-            $h3a = $t->find("h3 a", 0);
-
-            $divthumb_art = $t->find('div.thumb_art a.thumb_5x3 img', 0);
-            echo $divthumb_art->attr["src"];
-            echo "<br>";
-
-            if (isset($h3a->attr["title"])) {
-                echo $title = $h3a->attr["href"];
-                echo "<br>";
-                echo $title = $h3a->attr["title"];
-                echo "<hr>";
-            }
-            // dd($title);
-            // $href  = $a->href
-            // $title = htmlentities($title, ENT_QUOTES, "UTF-8");
-            // echo $title;
-            // echo "----";
-            // echo $t->href;
-            // echo $t->description;
-            // echo "<hr/>";
-        }
-        die;
+        // $homepage = file_get_contents('http://dantri.com.vn/trangchu.rss');
+        // $xml      = xml2array($homepage);
+        // dd($xml);
         // dd($tins);
         // $view        = new View('home/othernews');
         // $view->title = 'Tin Khác';
