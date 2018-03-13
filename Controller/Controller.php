@@ -124,14 +124,44 @@ class Controller
         }
     }
 
-    public function otherNews()
+    public function soft()
     {
-        // $homepage = file_get_contents('http://dantri.com.vn/trangchu.rss');
-        // $xml      = xml2array($homepage);
-        // dd($xml);
-        // dd($tins);
-        // $view        = new View('home/othernews');
-        // $view->title = 'Tin Khác';
-        // return print $view;
+        $typeInFolder = json_decode('["ipa","zip","amv","mp4","css","txt","ODF","ppt","pdf","xls","orther","mp3","viewer","doc","png","dw","jpg","php","apk"]', true);
+        if ($handle = opendir('storage/Software/')) {
+            $i = 0;
+            while (false !== ($entry = readdir($handle))) {
+                if ($entry != "." && $entry != "..") {
+                    $type  = explode(".", $entry);
+                    $image = $type[1];
+                    $image = in_array($image, $typeInFolder) ? $image : 'orther';
+
+                    $arrayFile[$i] = ['name' => $entry, 'urldownload' => '?active=downloadfile&file=' . $entry, 'image' => 'View/home/style/type/' . $image . '.png'];
+                    $i++;
+                }
+            }
+            closedir($handle);
+        }
+        $view        = new View('home/soft', ['arrayFile' => $arrayFile]);
+        $view->title = 'Phần Mềm';
+        return print $view;
+    }
+
+    public function Downloadfile()
+    {
+        $file = basename($_GET['file']);
+        // $file = '/path/to/your/dir/' . $file;
+
+        if (!$file) {
+            die('file not found');
+        } else {
+            header("Cache-Control: public");
+            header("Content-Description: File Transfer");
+            header("Content-Disposition: attachment; filename=$file");
+            header("Content-Type: application/zip");
+            header("Content-Transfer-Encoding: binary");
+
+            // read the file from disk
+            readfile($file);
+        }
     }
 }
