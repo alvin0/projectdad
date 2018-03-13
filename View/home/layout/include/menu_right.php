@@ -32,12 +32,11 @@ foreach ($articlehotlist as $articlehot) {?>
         </h5>
       </div>
       <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-        <div class="card-body">
+        <div class="card-body scrollbar ">
           <?php
 $dantriContent = file_get_contents('http://dantri.com.vn/trangchu.rss');
 $dantrixml     = xml2array($dantriContent);
 $dantriItems   = $dantrixml['rss']['channel']['item'];
-$dantriItems   = array_slice($dantriItems, 0, 7);
 foreach ($dantriItems as $dantri) {
     ?>
             <div class="media">
@@ -64,12 +63,11 @@ foreach ($dantriItems as $dantri) {
         </h5>
       </div>
       <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-        <div class="card-body">
+        <div class="card-body scrollbar " >
           <?php
 $homepage = file_get_contents('https://vnexpress.net/rss/tin-moi-nhat.rss');
 $xml      = xml2array($homepage);
 $items    = $xml['rss']['channel']['item'];
-$items    = array_slice($items, 0, 6);
 foreach ($items as $item) {
     ?>
             <div class="media">

@@ -2,3 +2,35 @@ img {
     max-width: 100%;
     height: auto;
     }
+.scrollbar {
+  height:685px;
+  overflow-y: scroll;
+}
+::-webkit-scrollbar {
+    width: 5px;
+}
+::-webkit-scrollbar-thumb {
+    background: #95afc0; 
+    border-radius: 5px;
+}
+.dropdown-menu{
+	border :0px;
+	padding: 0px;
+	font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background-color:rgba(0, 0, 0, 0);
+}
+#mainNav.is-fixed .navbar-nav>li.nav-item>.dropdown-menu>a {
+    color: black;
+}
+.dropdown-item
+{
+    color: #FFF;
+}
+   @media screen and (max-width: 768px) {
+   	.dropdown-item{
+   		color:#000;
+   	}
+   }

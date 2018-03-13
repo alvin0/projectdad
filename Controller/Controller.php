@@ -58,10 +58,6 @@ class Controller
         $article = $article->with('category_articles')->pagination(6);
         $page    = $article->getPage();
 
-        // dd($article);
-        // if (isset($_GET['keyword']) && strlen(trim($_GET['keyword'])) > 0) {
-        //     $view = new View('home/article/search', ['about' => $about], 'key' => $_GET['keyword']);
-        // } else {
         $view        = new View('home/article/search', ['article' => $article, 'page' => $page]);
         $view->title = 'Search';
         return print $view;

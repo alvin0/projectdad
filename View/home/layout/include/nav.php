@@ -19,8 +19,7 @@ $category_articles = DB::table('category_articles')->findAll();
 
 foreach ($category_articles as $key => $item) {
     ?>
-                  <a class="dropdown-item" href="?active=category&id=<?php echo $item->id ?>"><?php echo $item->name ?></a>
-                <div class="dropdown-divider"></div>
+                  <a class="dropdown-item item-child-menu" href="?active=category&id=<?php echo $item->id ?>"><strong><?php echo $item->name ?></strong></a>
 <?php
 }
 
